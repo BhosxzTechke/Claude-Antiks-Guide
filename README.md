@@ -5,20 +5,15 @@ My reusable Claude Code setup for software development.
 This repository contains the templates, Skills references, workflow, and
 setup scripts I use when starting and working on projects with Claude Code.
 
-<<<<<<< HEAD
 The goal is to use Claude Code as a development partner rather than simply
 as a code generator.
-=======
-The goal is to use Claude Code as a development partner rather than
-simply as a code generator.
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 ---
 
 # 🚀 Starting a New Project
 
-When starting a new Claude Code project, use this repository as the
-reference for the initial setup.
+When starting a new Claude Code project, use this repository as the reference
+for the initial setup.
 
 ## 1. Create Your Project
 
@@ -50,11 +45,7 @@ Copy-Item `
 
 Then customize `CLAUDE.md` for the project.
 
-<<<<<<< HEAD
 Example:
-=======
-For example:
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 ```text
 my-project/
@@ -78,17 +69,11 @@ for more information.
 
 # 🧩 Adding Skills
 
-<<<<<<< HEAD
 Skills provide Claude Code with specialized knowledge or workflows.
 
 Only add Skills when they provide real value for the project.
 
 Available Skill references are documented inside:
-=======
-Skills are added only when a project needs them.
-
-If I want to use a specific Skill, go to its folder inside:
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 ```text
 skills/
@@ -98,11 +83,14 @@ For example:
 
 ```text
 skills/
-└── frontend-design/
+├── frontend-design/
+│   └── README.md
+├── impeccable/
+│   └── README.md
+└── playwright/
     └── README.md
 ```
 
-<<<<<<< HEAD
 Each Skill README explains:
 
 - What the Skill does
@@ -139,9 +127,13 @@ Do not assume that every Skill must appear inside:
 Some official Claude Code plugins are managed by Claude Code and may be
 stored outside the project.
 
+Others may create project-level files under `.claude/`.
+
+The Skill's own README is the source of truth for its installation.
+
 ---
 
-# Example: Adding `frontend-design`
+# 🎨 Example: Adding `frontend-design`
 
 If I want to use the `frontend-design` Skill:
 
@@ -152,69 +144,46 @@ If I want to use the `frontend-design` Skill:
 
 2. Follow the official installation instructions.
 
-3. Install the Skill through Claude Code's plugin system when available.
+3. Install it through Claude Code's plugin system when available.
 
 4. Reload plugins if required.
 
 5. Verify that Claude detects the Skill.
 
-6. Start using the Skill through frontend development prompts.
+6. Start using it during frontend development.
 ```
 
-The official plugin may be managed by Claude Code rather than copied into
-the project.
+The official plugin may be managed by Claude Code separately from the project.
 
-For example, the project may simply contain:
-=======
-The Skill's README contains:
-
-- What the Skill does
-- Official source
-- Installation instructions
-- How it should appear in the project
-- Any important notes
-
----
-
-## Example: Adding `frontend-design`
-
-If I want the `frontend-design` Skill:
-
-```text
-1. Open:
-   skills/frontend-design/README.md
-
-2. Follow the installation instructions.
-
-3. Verify that the Skill was added to the project.
-```
-
-The final project should look approximately like:
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
+For example, the project may contain:
 
 ```text
 my-project/
 │
-<<<<<<< HEAD
 ├── .claude/
 │   └── settings.local.json
 │
 ├── CLAUDE.md
 ├── app/
 ├── public/
-├── package.json
-└── ...
+└── package.json
 ```
-
-Claude Code manages the installed plugin separately.
 
 The actual plugin files do not need to appear inside the project folder.
 
+See:
+
+```text
+skills/frontend-design/README.md
+```
+
+for the complete setup.
+
 ---
 
-# Example: Adding `impeccable`
+# ✨ Example: Adding `impeccable`
 
-If I want to use Impeccable:
+If I want to use Impeccable for frontend design review and refinement:
 
 ```text
 1. Open:
@@ -223,77 +192,56 @@ If I want to use Impeccable:
 
 2. Follow its installation instructions.
 
-3. Verify the installation.
+3. Run the official installer from the project root.
 
-4. Use it only when the project requires its capabilities.
+4. Select Claude Code.
+
+5. Select Project installation.
+
+6. Enable the Design Hook when prompted.
+
+7. Reload Claude Code.
+
+8. Run /impeccable init.
+
+9. Verify the installation.
 ```
 
-The final project structure depends on how the Skill is officially
-installed.
+The recommended installation command is:
 
----
-
-# Example: Adding `playwright`
-=======
-├── CLAUDE.md
-│
-├── .claude/
-│   └── skills/
-│       └── frontend-design/
-│           └── SKILL.md
-│
-├── app/
-├── public/
-└── package.json
+```powershell
+npx impeccable install
 ```
 
----
+The Impeccable README contains the complete step-by-step installation,
+configuration, commands, Design Hook, troubleshooting, and workflow.
 
-## Example: Adding `impeccable`
-
-If I want Impeccable:
+See:
 
 ```text
-1. Open:
-   skills/impeccable/README.md
-
-2. Follow the installation instructions.
-
-3. Verify the installation.
-
-4. Continue working inside the project.
+skills/impeccable/README.md
 ```
 
 ---
 
-## Example: Adding `playwright`
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
+# 🧪 Example: Adding `playwright`
 
 If I need browser testing:
 
 ```text
 1. Open:
-<<<<<<< HEAD
 
    skills/playwright/README.md
 
 2. Follow its installation instructions.
-=======
-   skills/playwright/README.md
-
-2. Follow the installation instructions.
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 3. Verify the installation.
 
 4. Use it when browser testing is required.
 ```
 
-<<<<<<< HEAD
 The final project structure depends on the installation method.
 
-=======
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 ---
 
 # ⚙️ Scripts
@@ -304,29 +252,16 @@ Claude Code project setup.
 The goal is to avoid repeating the same setup steps manually for every
 new project.
 
-<<<<<<< HEAD
 Scripts may help with:
 
 - Creating project configuration
 - Adding `CLAUDE.md`
 - Setting up `.claude/`
-- Installing selected project Skills
+- Installing selected Skills
 - Verifying project setup
 - Other repetitive Claude Code configuration
 
 Example:
-=======
-Current and future scripts may help with:
-
-- Creating project configuration
-- Adding `CLAUDE.md`
-- Installing selected Skills
-- Setting up `.claude/`
-- Verifying project setup
-- Other repetitive Claude Code configuration
-
-For example:
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 ```text
 scripts/
@@ -343,11 +278,7 @@ The script should automate repetitive setup while keeping the process
 understandable and transparent.
 
 If a script is not available yet, follow the manual instructions in this
-<<<<<<< HEAD
 README and the relevant Skill documentation.
-=======
-README and the relevant documentation.
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 ---
 
@@ -361,30 +292,18 @@ my-project/
 ├── CLAUDE.md
 │
 ├── .claude/
-<<<<<<< HEAD
-│   ├── settings.json
+│   ├── settings.local.json
 │   └── ...
-=======
-│   └── skills/
-│       ├── frontend-design/
-│       │   └── SKILL.md
-│       │
-│       ├── impeccable/
-│       │   └── SKILL.md
-│       │
-│       └── playwright/
-│           └── SKILL.md
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 │
 ├── app/
+├── components/
 ├── public/
 ├── package.json
 └── ...
 ```
 
-<<<<<<< HEAD
-The `.claude/` contents depend on the Claude Code features and Skills
-enabled for the project.
+The `.claude/` contents depend on the Claude Code features and Skills enabled
+for the project.
 
 Some Skills may be managed by Claude Code outside the project.
 
@@ -398,11 +317,10 @@ Others may use a project-level structure such as:
 ```
 
 Always follow the Skill's own installation instructions.
-=======
+
 Not every project needs every Skill.
 
 Only add the Skills that are relevant to the project.
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 ---
 
@@ -442,7 +360,6 @@ claude
 
 ---
 
-<<<<<<< HEAD
 # 🧭 Development Workflow
 
 Use Claude Code as a development partner.
@@ -470,10 +387,27 @@ Refine
 Avoid immediately asking Claude to build a large feature without first
 understanding the existing project.
 
+For larger tasks, use bounded steps:
+
+```text
+Inspect
+   ↓
+Explain
+   ↓
+Plan
+   ↓
+Approve
+   ↓
+Implement
+   ↓
+Verify
+```
+
+This keeps the development process understandable and gives me control over
+the changes.
+
 ---
 
-=======
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 # 📚 Repository Structure
 
 ```text
@@ -495,12 +429,8 @@ Claude-Code-Starter/
 │
 ├── skills/
 │   ├── frontend-design/
-<<<<<<< HEAD
 │   │   ├── README.md
 │   │   └── images/
-=======
-│   │   └── README.md
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 │   │
 │   ├── impeccable/
 │   │   └── README.md
@@ -511,6 +441,16 @@ Claude-Code-Starter/
 └── scripts/
     └── setup-project.ps1
 ```
+
+The `docs/` directory is a reference and learning library.
+
+It is not automatically copied into every new project.
+
+The `templates/` directory contains reusable files.
+
+The `skills/` directory contains documentation and references for Skills.
+
+The actual installation method depends on each Skill.
 
 ---
 
@@ -525,11 +465,7 @@ CLAUDE.md
 How CLAUDE.md works
 → docs/claude-md.md
 
-<<<<<<< HEAD
-Frontend Design
-=======
 Frontend design Skill
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 → skills/frontend-design/README.md
 
 Impeccable
@@ -541,6 +477,9 @@ Playwright
 Claude Code workflow
 → docs/workflow.md
 
+Skills
+→ docs/skills.md
+
 Prompting
 → docs/prompting.md
 
@@ -550,20 +489,16 @@ MCP
 Agents
 → docs/agents.md
 
-<<<<<<< HEAD
 Context management
 → docs/context-management.md
 
-=======
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 Project setup automation
 → scripts/setup-project.ps1
 ```
 
 ---
 
-<<<<<<< HEAD
-# 🎨 Example: Frontend Design
+# 🎨 Frontend Design Workflow
 
 For a frontend-heavy project such as a portfolio:
 
@@ -629,6 +564,66 @@ Make the implementation responsive and accessible.
 
 ---
 
+# ✨ Frontend Refinement With Impeccable
+
+After the initial interface is implemented, Impeccable can be used as a
+design review and refinement layer.
+
+Recommended workflow:
+
+```text
+frontend-design
+      ↓
+Visual direction
+      ↓
+Implementation
+      ↓
+Impeccable critique
+      ↓
+Impeccable audit
+      ↓
+Impeccable polish
+      ↓
+Design detection
+      ↓
+Browser verification
+```
+
+Example:
+
+```text
+Use Impeccable to review the current homepage.
+
+Do not rebuild the page from scratch.
+
+First analyze:
+
+- Visual hierarchy
+- Typography
+- Spacing
+- Color usage
+- Responsive behavior
+- Accessibility
+- Interaction quality
+
+Explain the highest-impact problems first.
+
+Then propose the smallest set of changes that would make
+the interface feel more polished and intentional.
+
+Do not modify unrelated components.
+```
+
+See:
+
+```text
+skills/impeccable/README.md
+```
+
+for the complete Impeccable workflow.
+
+---
+
 # 🧩 Choosing Skills
 
 Do not install every available Skill into every project.
@@ -642,13 +637,13 @@ Portfolio
     ↓
 frontend-design
 
-Browser testing
-    ↓
-playwright
-
 UI refinement
     ↓
 impeccable
+
+Browser testing
+    ↓
+playwright
 ```
 
 A project does not need every Skill.
@@ -703,6 +698,8 @@ See:
 ```text
 docs/agents.md
 ```
+
+for more information.
 
 ---
 
@@ -808,17 +805,11 @@ Use appropriate environment variables and secret management instead.
 
 ---
 
-=======
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 # 🎯 Principle
 
 This repository is my personal Claude Code starting point.
 
-<<<<<<< HEAD
 I do not need to memorize every installation command or workflow.
-=======
-I don't need to memorize every installation command or workflow.
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 When starting a new project:
 
@@ -827,24 +818,17 @@ Come here
    ↓
 Find what I need
    ↓
-<<<<<<< HEAD
 Read the relevant documentation
    ↓
 Install what is required
    ↓
 Configure the project
-=======
-Follow the instructions
-   ↓
-Set up the project
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
    ↓
 Start building
 ```
 
 The objective is to become a better developer with Claude Code, not to
 blindly generate code.
-<<<<<<< HEAD
 
 ---
 
@@ -879,5 +863,3 @@ Powerful
    =
 Better Claude Code Workflow
 ```
-=======
->>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
