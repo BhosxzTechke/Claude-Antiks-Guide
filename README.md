@@ -5,8 +5,13 @@ My reusable Claude Code setup for software development.
 This repository contains the templates, Skills references, workflow, and
 setup scripts I use when starting and working on projects with Claude Code.
 
+<<<<<<< HEAD
 The goal is to use Claude Code as a development partner rather than simply
 as a code generator.
+=======
+The goal is to use Claude Code as a development partner rather than
+simply as a code generator.
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 ---
 
@@ -45,7 +50,11 @@ Copy-Item `
 
 Then customize `CLAUDE.md` for the project.
 
+<<<<<<< HEAD
 Example:
+=======
+For example:
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 ```text
 my-project/
@@ -69,11 +78,17 @@ for more information.
 
 # 🧩 Adding Skills
 
+<<<<<<< HEAD
 Skills provide Claude Code with specialized knowledge or workflows.
 
 Only add Skills when they provide real value for the project.
 
 Available Skill references are documented inside:
+=======
+Skills are added only when a project needs them.
+
+If I want to use a specific Skill, go to its folder inside:
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 ```text
 skills/
@@ -87,6 +102,7 @@ skills/
     └── README.md
 ```
 
+<<<<<<< HEAD
 Each Skill README explains:
 
 - What the Skill does
@@ -149,10 +165,37 @@ The official plugin may be managed by Claude Code rather than copied into
 the project.
 
 For example, the project may simply contain:
+=======
+The Skill's README contains:
+
+- What the Skill does
+- Official source
+- Installation instructions
+- How it should appear in the project
+- Any important notes
+
+---
+
+## Example: Adding `frontend-design`
+
+If I want the `frontend-design` Skill:
+
+```text
+1. Open:
+   skills/frontend-design/README.md
+
+2. Follow the installation instructions.
+
+3. Verify that the Skill was added to the project.
+```
+
+The final project should look approximately like:
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 ```text
 my-project/
 │
+<<<<<<< HEAD
 ├── .claude/
 │   └── settings.local.json
 │
@@ -191,23 +234,66 @@ installed.
 ---
 
 # Example: Adding `playwright`
+=======
+├── CLAUDE.md
+│
+├── .claude/
+│   └── skills/
+│       └── frontend-design/
+│           └── SKILL.md
+│
+├── app/
+├── public/
+└── package.json
+```
+
+---
+
+## Example: Adding `impeccable`
+
+If I want Impeccable:
+
+```text
+1. Open:
+   skills/impeccable/README.md
+
+2. Follow the installation instructions.
+
+3. Verify the installation.
+
+4. Continue working inside the project.
+```
+
+---
+
+## Example: Adding `playwright`
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 If I need browser testing:
 
 ```text
 1. Open:
+<<<<<<< HEAD
 
    skills/playwright/README.md
 
 2. Follow its installation instructions.
+=======
+   skills/playwright/README.md
+
+2. Follow the installation instructions.
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 3. Verify the installation.
 
 4. Use it when browser testing is required.
 ```
 
+<<<<<<< HEAD
 The final project structure depends on the installation method.
 
+=======
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 ---
 
 # ⚙️ Scripts
@@ -218,6 +304,7 @@ Claude Code project setup.
 The goal is to avoid repeating the same setup steps manually for every
 new project.
 
+<<<<<<< HEAD
 Scripts may help with:
 
 - Creating project configuration
@@ -228,6 +315,18 @@ Scripts may help with:
 - Other repetitive Claude Code configuration
 
 Example:
+=======
+Current and future scripts may help with:
+
+- Creating project configuration
+- Adding `CLAUDE.md`
+- Installing selected Skills
+- Setting up `.claude/`
+- Verifying project setup
+- Other repetitive Claude Code configuration
+
+For example:
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 ```text
 scripts/
@@ -244,7 +343,11 @@ The script should automate repetitive setup while keeping the process
 understandable and transparent.
 
 If a script is not available yet, follow the manual instructions in this
+<<<<<<< HEAD
 README and the relevant Skill documentation.
+=======
+README and the relevant documentation.
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 ---
 
@@ -258,8 +361,20 @@ my-project/
 ├── CLAUDE.md
 │
 ├── .claude/
+<<<<<<< HEAD
 │   ├── settings.json
 │   └── ...
+=======
+│   └── skills/
+│       ├── frontend-design/
+│       │   └── SKILL.md
+│       │
+│       ├── impeccable/
+│       │   └── SKILL.md
+│       │
+│       └── playwright/
+│           └── SKILL.md
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 │
 ├── app/
 ├── public/
@@ -267,6 +382,7 @@ my-project/
 └── ...
 ```
 
+<<<<<<< HEAD
 The `.claude/` contents depend on the Claude Code features and Skills
 enabled for the project.
 
@@ -282,6 +398,11 @@ Others may use a project-level structure such as:
 ```
 
 Always follow the Skill's own installation instructions.
+=======
+Not every project needs every Skill.
+
+Only add the Skills that are relevant to the project.
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 ---
 
@@ -321,6 +442,7 @@ claude
 
 ---
 
+<<<<<<< HEAD
 # 🧭 Development Workflow
 
 Use Claude Code as a development partner.
@@ -350,6 +472,8 @@ understanding the existing project.
 
 ---
 
+=======
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 # 📚 Repository Structure
 
 ```text
@@ -371,8 +495,12 @@ Claude-Code-Starter/
 │
 ├── skills/
 │   ├── frontend-design/
+<<<<<<< HEAD
 │   │   ├── README.md
 │   │   └── images/
+=======
+│   │   └── README.md
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 │   │
 │   ├── impeccable/
 │   │   └── README.md
@@ -397,7 +525,11 @@ CLAUDE.md
 How CLAUDE.md works
 → docs/claude-md.md
 
+<<<<<<< HEAD
 Frontend Design
+=======
+Frontend design Skill
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 → skills/frontend-design/README.md
 
 Impeccable
@@ -418,15 +550,19 @@ MCP
 Agents
 → docs/agents.md
 
+<<<<<<< HEAD
 Context management
 → docs/context-management.md
 
+=======
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 Project setup automation
 → scripts/setup-project.ps1
 ```
 
 ---
 
+<<<<<<< HEAD
 # 🎨 Example: Frontend Design
 
 For a frontend-heavy project such as a portfolio:
@@ -672,11 +808,17 @@ Use appropriate environment variables and secret management instead.
 
 ---
 
+=======
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 # 🎯 Principle
 
 This repository is my personal Claude Code starting point.
 
+<<<<<<< HEAD
 I do not need to memorize every installation command or workflow.
+=======
+I don't need to memorize every installation command or workflow.
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
 
 When starting a new project:
 
@@ -685,17 +827,24 @@ Come here
    ↓
 Find what I need
    ↓
+<<<<<<< HEAD
 Read the relevant documentation
    ↓
 Install what is required
    ↓
 Configure the project
+=======
+Follow the instructions
+   ↓
+Set up the project
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
    ↓
 Start building
 ```
 
 The objective is to become a better developer with Claude Code, not to
 blindly generate code.
+<<<<<<< HEAD
 
 ---
 
@@ -730,3 +879,5 @@ Powerful
    =
 Better Claude Code Workflow
 ```
+=======
+>>>>>>> 4d4a49681612294543b690fa9bc419784e8e7b19
