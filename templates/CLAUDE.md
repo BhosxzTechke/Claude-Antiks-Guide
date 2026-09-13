@@ -1,65 +1,246 @@
 # Project Instructions
 
-## Project
+This file contains project-specific instructions for Claude Code.
 
-- Name: [PROJECT NAME]
-- Purpose: [SHORT DESCRIPTION]
+---
 
-## Stack
+# Project Context
 
-- Framework: [FRAMEWORK]
-- Language: [LANGUAGE]
-- Styling: [STYLING]
-- Database: [DATABASE]
+Before making changes, inspect the existing project and understand the current
+implementation.
 
-## Architecture
+Do not invent:
 
-[Brief description of the project structure and architecture.]
+- Requirements
+- Features
+- Content
+- Project information
+- Metrics
+- Testimonials
+- URLs
+- Technical decisions
 
-## Rules
+If important information is missing, use `TBD` or ask before implementing.
 
-- Inspect existing code before making changes.
-- Prefer the simplest solution that fits the project.
-- Don't modify unrelated files.
-- Don't introduce unnecessary dependencies or abstractions.
-- Preserve the existing architecture unless there is a clear reason to change it.
-- Explain important architectural decisions before implementation.
+---
 
-## Development
+# Project Goal
 
-- Follow the existing coding conventions.
-- Keep components and functions focused.
-- Reuse existing code when appropriate.
-- Handle errors appropriately.
+## What We Are Building
 
-## Verification
+```text
+TBD
+```
 
-After meaningful changes:
+## Primary Users
 
-1. Run relevant tests or checks.
-2. Check for lint/type errors.
-3. Review the Git diff.
-4. Confirm the requested behavior works.
+```text
+TBD
+```
 
-## Communication
+## Primary Goal
 
-When working on a task:
+```text
+TBD
+```
+
+---
+
+# Visual References
+
+Project-specific visual references are stored in:
+
+```text
+references/
+└── visual/
+```
+
+Use these references when making frontend decisions.
+
+Treat them as design references, not production assets.
+
+Do not copy branding, text, private information, or proprietary assets from
+the references.
+
+For detailed frontend design guidance, use the project's installed
+`frontend-design` and `impeccable` Skills.
+
+---
+
+# Architecture
+
+Use the simplest architecture that supports the current project.
+
+Do not create unnecessary:
+
+- Components
+- Hooks
+- Contexts
+- Services
+- Utilities
+- Abstractions
+- Dependencies
+
+Extract or abstract something only when there is a clear reason.
+
+If a significant architectural change is needed, explain it before
+implementing it.
+
+---
+
+# Development Workflow
+
+Use Claude Code as a development partner.
+
+Follow:
 
 ```text
 Understand
-→ Inspect
-→ Plan
-→ Implement
-→ Verify
-→ Review
+    ↓
+Inspect
+    ↓
+Plan
+    ↓
+Implement
+    ↓
+Verify
+    ↓
+Review
 ```
 
-For significant changes, explain the plan before implementation.
+For larger tasks:
 
-## Avoid
+```text
+Inspect
+    ↓
+Explain
+    ↓
+Plan
+    ↓
+Approve
+    ↓
+Implement
+    ↓
+Verify
+```
 
-- Unnecessary refactoring
-- Premature abstraction
-- Unrelated changes
-- Overengineering
-- Silently changing project architecture
+Do not modify unrelated files.
+
+---
+
+# Implementation Rules
+
+- Keep changes focused.
+- Follow existing project conventions.
+- Reuse existing solutions when appropriate.
+- Preserve working functionality.
+- Avoid unnecessary dependencies.
+- Keep code readable.
+- Do not silently change unrelated behavior.
+
+---
+
+# Content Accuracy
+
+Never fabricate project information.
+
+Do not invent:
+
+- Results
+- Technologies
+- Responsibilities
+- Metrics
+- Testimonials
+- Dates
+- Client information
+- Links
+
+If information is unknown:
+
+```text
+TBD
+```
+
+---
+
+# Verification
+
+After implementation, verify the change when possible.
+
+Depending on the project:
+
+```text
+TypeScript
+Lint
+Build
+Tests
+Browser
+Responsive behavior
+Accessibility
+```
+
+Do not claim something works without verifying it.
+
+---
+
+# Git Safety
+
+Do not reset, revert, delete, or overwrite unrelated work.
+
+Before completing significant work:
+
+```text
+Review changes
+    ↓
+Test
+    ↓
+Review diff
+```
+
+Only commit when requested or approved.
+
+---
+
+# Security
+
+Never expose or commit:
+
+- API keys
+- Passwords
+- Tokens
+- Secrets
+- Private credentials
+- Private client information
+
+Use environment variables and appropriate secret management.
+
+---
+
+# Communication
+
+When working with me:
+
+- Explain important decisions.
+- Point out risks.
+- Tell me when information is missing.
+- Do not silently fix unrelated problems.
+- Ask before making consequential assumptions.
+
+The goal is to help me understand the project and become a better developer,
+not simply generate code.
+
+---
+
+# Final Principle
+
+Use the simplest setup that supports the project.
+
+```text
+Simple
+   +
+Intentional
+   +
+Understandable
+   =
+Better Development Workflow
+```
