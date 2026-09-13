@@ -67,6 +67,41 @@ for more information.
 
 ---
 
+## 3. Add Visual References
+
+If the project has visual references, create:
+
+```text
+references/
+└── visual/
+```
+
+Add screenshots, Figma exports, website references, or other visual material
+that Claude should use as design context.
+
+Example:
+
+```text
+my-project/
+│
+├── references/
+│   └── visual/
+│       ├── homepage-reference.png
+│       └── hero-reference.png
+│
+├── CLAUDE.md
+├── app/
+├── public/
+└── package.json
+```
+
+Visual references are specific to the project and are not copied from this
+repository.
+
+If no visual references are needed, this directory is optional.
+
+---
+
 # 🧩 Adding Skills
 
 Skills provide Claude Code with specialized knowledge or workflows.
@@ -74,12 +109,6 @@ Skills provide Claude Code with specialized knowledge or workflows.
 Only add Skills when they provide real value for the project.
 
 Available Skill references are documented inside:
-
-```text
-skills/
-```
-
-For example:
 
 ```text
 skills/
@@ -155,22 +184,6 @@ If I want to use the `frontend-design` Skill:
 
 The official plugin may be managed by Claude Code separately from the project.
 
-For example, the project may contain:
-
-```text
-my-project/
-│
-├── .claude/
-│   └── settings.local.json
-│
-├── CLAUDE.md
-├── app/
-├── public/
-└── package.json
-```
-
-The actual plugin files do not need to appear inside the project folder.
-
 See:
 
 ```text
@@ -213,14 +226,13 @@ The recommended installation command is:
 npx impeccable install
 ```
 
-The Impeccable README contains the complete step-by-step installation,
-configuration, commands, Design Hook, troubleshooting, and workflow.
-
 See:
 
 ```text
 skills/impeccable/README.md
 ```
+
+for the complete setup.
 
 ---
 
@@ -240,26 +252,12 @@ If I need browser testing:
 4. Use it when browser testing is required.
 ```
 
-The final project structure depends on the installation method.
-
 ---
 
 # ⚙️ Scripts
 
 The `scripts/` directory contains reusable scripts that help automate
 Claude Code project setup.
-
-The goal is to avoid repeating the same setup steps manually for every
-new project.
-
-Scripts may help with:
-
-- Creating project configuration
-- Adding `CLAUDE.md`
-- Setting up `.claude/`
-- Installing selected Skills
-- Verifying project setup
-- Other repetitive Claude Code configuration
 
 Example:
 
@@ -274,11 +272,8 @@ A setup script may eventually allow a new project to be configured with:
 .\scripts\setup-project.ps1
 ```
 
-The script should automate repetitive setup while keeping the process
+Scripts should automate repetitive setup while keeping the process
 understandable and transparent.
-
-If a script is not available yet, follow the manual instructions in this
-README and the relevant Skill documentation.
 
 ---
 
@@ -290,9 +285,12 @@ A typical project may eventually look like:
 my-project/
 │
 ├── CLAUDE.md
+├── PRODUCT.md
+│
+├── references/
+│   └── visual/
 │
 ├── .claude/
-│   ├── settings.local.json
 │   └── ...
 │
 ├── app/
@@ -302,8 +300,8 @@ my-project/
 └── ...
 ```
 
-The `.claude/` contents depend on the Claude Code features and Skills enabled
-for the project.
+The exact `.claude/` structure depends on the Claude Code features and Skills
+enabled for the project.
 
 Some Skills may be managed by Claude Code outside the project.
 
@@ -318,10 +316,6 @@ Others may use a project-level structure such as:
 
 Always follow the Skill's own installation instructions.
 
-Not every project needs every Skill.
-
-Only add the Skills that are relevant to the project.
-
 ---
 
 # 🔄 Basic Workflow
@@ -332,6 +326,8 @@ After the project is configured:
 Create Project
       ↓
 Add CLAUDE.md
+      ↓
+Add Visual References
       ↓
 Choose Required Skills
       ↓
@@ -384,10 +380,7 @@ Review
 Refine
 ```
 
-Avoid immediately asking Claude to build a large feature without first
-understanding the existing project.
-
-For larger tasks, use bounded steps:
+For larger tasks:
 
 ```text
 Inspect
@@ -403,8 +396,7 @@ Implement
 Verify
 ```
 
-This keeps the development process understandable and gives me control over
-the changes.
+Do not modify unrelated files.
 
 ---
 
@@ -449,8 +441,6 @@ It is not automatically copied into every new project.
 The `templates/` directory contains reusable files.
 
 The `skills/` directory contains documentation and references for Skills.
-
-The actual installation method depends on each Skill.
 
 ---
 
@@ -500,127 +490,39 @@ Project setup automation
 
 # 🎨 Frontend Design Workflow
 
-For a frontend-heavy project such as a portfolio:
+For a frontend-heavy project:
 
 ```text
-my-project/
-│
-├── CLAUDE.md
-│
-├── .claude/
-│   └── ...
-│
-├── app/
-├── components/
-├── public/
-└── package.json
+Visual References
+       ↓
+frontend-design
+       ↓
+Visual Direction
+       ↓
+Implementation
+       ↓
+Impeccable
+       ↓
+Critique + Refinement
+       ↓
+Browser Verification
 ```
 
-Install `frontend-design` using:
+Use:
 
 ```text
 skills/frontend-design/README.md
 ```
 
-Then use it during frontend tasks.
+for frontend design guidance.
 
-Example:
-
-```text
-Use the frontend-design Skill for this task.
-
-First inspect the existing project.
-
-Analyze the current UI and propose a visual direction.
-
-Focus on:
-
-- Typography
-- Layout
-- Spacing
-- Color
-- Visual hierarchy
-- Responsive behavior
-- Animation
-
-Do not modify files yet.
-
-Wait for my approval.
-```
-
-After reviewing the proposal:
-
-```text
-Implement the approved design.
-
-Only modify the files required for this section.
-
-Do not change unrelated components.
-
-Keep the architecture simple.
-
-Make the implementation responsive and accessible.
-```
-
----
-
-# ✨ Frontend Refinement With Impeccable
-
-After the initial interface is implemented, Impeccable can be used as a
-design review and refinement layer.
-
-Recommended workflow:
-
-```text
-frontend-design
-      ↓
-Visual direction
-      ↓
-Implementation
-      ↓
-Impeccable critique
-      ↓
-Impeccable audit
-      ↓
-Impeccable polish
-      ↓
-Design detection
-      ↓
-Browser verification
-```
-
-Example:
-
-```text
-Use Impeccable to review the current homepage.
-
-Do not rebuild the page from scratch.
-
-First analyze:
-
-- Visual hierarchy
-- Typography
-- Spacing
-- Color usage
-- Responsive behavior
-- Accessibility
-- Interaction quality
-
-Explain the highest-impact problems first.
-
-Then propose the smallest set of changes that would make
-the interface feel more polished and intentional.
-
-Do not modify unrelated components.
-```
-
-See:
+Use:
 
 ```text
 skills/impeccable/README.md
 ```
 
-for the complete Impeccable workflow.
+for design review and refinement.
 
 ---
 
@@ -636,8 +538,6 @@ For example:
 Portfolio
     ↓
 frontend-design
-
-UI refinement
     ↓
 impeccable
 
@@ -657,20 +557,6 @@ Fewer relevant Skills can make the project easier to understand and manage.
 MCP provides Claude Code with access to external tools and services.
 
 Configure MCP only when the project actually needs it.
-
-Example workflow:
-
-```text
-Project
-   ↓
-Identify required external capability
-   ↓
-Configure MCP
-   ↓
-Verify connection
-   ↓
-Use MCP when needed
-```
 
 See:
 
@@ -751,23 +637,27 @@ for more information.
 
 # 🧠 Context Management
 
-Claude Code works better when the relevant project context is clear.
-
 Keep important project rules in:
 
 ```text
 CLAUDE.md
 ```
 
-Keep specialized knowledge in:
+Keep product context in:
 
 ```text
-Skills
+PRODUCT.md
 ```
 
-Use MCP when external tools or services are required.
+Keep project-specific visual references in:
 
-Use focused prompts for individual tasks.
+```text
+references/visual/
+```
+
+Use Skills for specialized knowledge.
+
+Use MCP when external tools or services are required.
 
 See:
 
@@ -788,6 +678,7 @@ CLAUDE.md
 README.md
 Skills
 GitHub
+references/
 Screenshots
 Prompts
 ```
