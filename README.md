@@ -31,13 +31,15 @@ New project idea
 
 Attach your architecture image, screenshots or references, then use this prompt:
 
+Example:
+![Build & Verify Loop](assets/diagrams/example-architecture-reference.png)
+
 ```text
 Create a simple, developer-friendly MVP documentation for my app "[PROJECT NAME]" — [DESCRIPTION / TAGLINE].
 
 Use the attached [ARCHITECTURE IMAGE / REFERENCE] as the reference.
-Example
 
-![Build & Verify Loop](assets/diagrams/example-architecture-reference.png)
+
 
 Include:
 1. Product overview and MVP goal
