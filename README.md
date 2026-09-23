@@ -10,7 +10,7 @@ New project idea
   → 2. Project AGENTS.md          (Claude Desktop)   → review & approve
   → 3. Add the starter kit        (download + extract)
   → 4. Open in Claude Code        (read, inspect, confirm)
-  → 5. Create the project skeleton
+  → 5. Create the project skeleton  (part by part)
   → 6. Implement the design system   (ChatGPT image → Claude Code)
   → 7. Build UI with the verify loop
   → 8. Build one task at a time
@@ -151,22 +151,41 @@ Correct anything Claude gets wrong before building. If you fix a rule, fix it in
 
 ---
 
-## Step 5 — Create the project skeleton
+## Step 5 — Create the project skeleton, part by part
 
-Use the kit's planning command:
+Don't ask for the whole skeleton in one request. It's too much for one prompt, and one mistake spreads everywhere. Build it in small parts: **one `/plan` per part, one session per part**. Run `/check` and `/ship` after each part, then `/clear`.
 
-```text
-/plan create the project skeleton exactly as described in AGENTS.md (folders, frameworks, env examples)
-```
+| Part | Command | Done when |
+|---|---|---|
+| 5.1 Repo basics | `/plan set up the repo basics from AGENTS.md: folder structure, root .gitignore, README with how to run. No frameworks yet.` | Folders exist, first commit on GitHub |
+| 5.2 First app | `/plan create the [mobile / web] app skeleton as described in AGENTS.md. Default starter screen only, no features.` | App runs (on your phone / in the browser) |
+| 5.3 Backend | `/plan create the [API / backend] skeleton as described in AGENTS.md with a health check endpoint. No features.` | Health check responds |
+| 5.4 Connect database | `/plan connect the backend to the database from AGENTS.md. Env example only, no tables yet.` | Backend connects to the database |
+| 5.5 Connect app to backend | `/plan make the app call the health check endpoint and show the result.` | App shows "API OK" |
+| 5.6 CI | `/plan add CI that runs the checks from AGENTS.md on every pull request.` | CI is green on a PR |
 
-Claude writes `prompts/01-project-skeleton.md` and asks Yes/No. Read it, approve, and let it build.
+Then connect the repo to CodeRabbit.
 
-Good follow-ups for this stage:
+**Skip or add parts to fit your stack.** A project without a backend skips 5.3–5.5; a project with background jobs adds "5.x Jobs skeleton" after 5.4. Services like OpenAI, Trigger.dev or Firebase are set up later, in the task that first needs them, not in the skeleton.
 
-- `/plan add CI that runs the checks from AGENTS.md on every pull request`
-- Connect the repo to GitHub and CodeRabbit.
+<details>
+<summary>Example (Don't Forget)</summary>
 
-Rules: no technology gets added just because Claude suggests it, and nothing beyond the MVP gets built. `AGENTS.md` sets the boundaries.
+1. Repo basics: `mobile/`, `api/`, `jobs/`, `docs/`, `prompts/`
+2. Expo app: runs in Expo Go on the phone
+3. Laravel API: `GET /api/health`
+4. Cloud PostgreSQL: Laravel connects to Neon / Supabase
+5. Phone → API: app shows "API OK" using the laptop's LAN IP
+6. CI: API tests + Pint, mobile `tsc` + lint
+
+Trigger.dev, Firebase and OpenAI wait for their own tasks (notifications, AI parsing).
+</details>
+
+**Rules for every part:**
+
+- One part = one prompt file = one branch = one PR. Don't start the next part until the current one runs.
+- No features in the skeleton. It only proves that each piece starts and that the pieces can talk to each other.
+- No technology gets added just because Claude suggests it. `AGENTS.md` sets the boundaries.
 
 ---
 
@@ -222,10 +241,9 @@ Approve the prompt, let Claude build it, then run `/verify-ui design system prev
 
 ## Step 7 — Build UI with the verify loop
 
-![Build & Verify Loop](assets/diagrams/build-and-verify-loop.png)
-
-
 When a task has a visual reference (screenshot, Figma export, image), the reference is the source of truth.
+
+![Build & Verify Loop](assets/diagrams/build-and-verify-loop.png)
 
 ```
 Reference → Build → Screenshot → Compare → Matches?
