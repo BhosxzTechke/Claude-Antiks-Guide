@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: en-US
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  auto_review:
+    enabled: true
+    drafts: false
+  path_filters:
+    - "!**/package-lock.json"
+    - "!**/composer.lock"
+    - "!prompts/**"
+  path_instructions:
+    - path: "api/**/*.php"
+      instructions: |
+        Flag as critical:
+        - Any Memory or Reminder query not scoped to the authenticated user (e.g. Memory::find($id), Memory::where(...) without the user). Expect $request->user()->memories() plus a Policy.
+        - Access to another user's memory returning anything other than 404.
+        - user_id taken from request input instead of $request->user().
+        - OpenAI called outside the parser service, or AI output saved without validation.
+        - /api/internal/* routes without the shared-secret middleware.
+        - Secrets, full user text, or tokens written to logs.
+        Also check: Form Requests for validation, API Resources for responses, no N+1 queries on list endpoints.
+    - path: "api/database/migrations/**"
+      instructions: |
+        Check foreign keys cascade on delete, remind_at uses timestampTz, and indexes exist on memories(user_id, status) and reminders(status, remind_at). Flag new tables not listed in AGENTS.md section 9.
+    - path: "api/tests/**"
+      instructions: |
+        Every new endpoint needs a feature test proving user A cannot read, edit or delete user B's memory. OpenAI must be mocked; no real API calls in tests.
+    - path: "mobile/**"
+      instructions: |
+        Flag as critical:
+        - Any secret or private key in mobile code or config (OpenAI key, Firebase service account, Trigger.dev secret, INTERNAL_API_SECRET).
+        - Any EXPO_PUBLIC_ variable holding something other than a public value.
+        - Auth tokens stored outside expo-secure-store.
+        - Direct calls to OpenAI, Firebase Admin, Trigger.dev or the database.
+        - PostHog events carrying memory text, titles, notes or email, or event names not from the constants file.
+        Also check: reuse of existing components, loading / empty / error states.
+    - path: "jobs/**"
+      instructions: |
+        Tasks must take IDs only, re-check reminder status with Laravel before sending, be idempotent on retry, and contain no business logic. Flag credentials hardcoded instead of read from env.
