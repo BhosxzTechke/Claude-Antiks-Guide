@@ -191,6 +191,27 @@ Correct anything Claude gets wrong before building. If you fix a rule, fix it in
 
 ---
 
+
+
+## Step 4.5 — Review recommended skills
+
+Prompt:
+
+```text
+Now review the project, AGENTS.md, CLAUDE.md, architecture, and tech stack.
+
+Check if there are any Claude Code skills that would be genuinely useful for this project or our development workflow.
+
+If yes:
+- Recommend only the relevant skills.
+- Briefly explain what each skill would help with.
+- Let me choose which ones to use.
+
+If none are necessary, say "No additional skills recommended" and continue.
+Do not install or use any skill without my approval.
+```
+
+
 ## Step 5 — Create the project skeleton, part by part
 
 Don't ask for the whole skeleton in one request. It's too much for one prompt, and one mistake spreads everywhere. Build it in small parts: **one `/plan` per part, one session per part**. Run `/check` and `/ship` after each part, then `/clear`.
