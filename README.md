@@ -39,7 +39,33 @@ Create a simple, developer-friendly MVP documentation for my app "[PROJECT NAME]
 
 Use the attached [ARCHITECTURE IMAGE / REFERENCE] as the reference.
 
+IMPORTANT — INTERVIEW ME FIRST:
+Before writing the documentation, review the project requirements and identify any important technical or product decisions that are missing or unclear.
 
+If something important is missing, interview me with concise questions before creating the final documentation.
+
+Examples of things you should ask about when relevant:
+- Frontend framework / platform
+- Backend framework
+- Database (e.g., Neon PostgreSQL, Supabase, MySQL)
+- ORM / database layer
+- Authentication
+- State management (e.g., Zustand, Redux, Context)
+- API approach
+- File/image storage
+- Notifications
+- Background jobs / scheduled tasks
+- AI provider/model
+- Realtime functionality
+- Deployment/hosting
+- External services or APIs
+- Development environment and hardware constraints
+
+Do NOT assume or choose technologies for me when the decision is important.
+If I already provided the answer, do not ask about it again.
+Only ask questions that materially affect the architecture, development plan, or MVP scope.
+
+After I answer the questions, create the final documentation.
 
 Include:
 1. Product overview and MVP goal
@@ -51,8 +77,17 @@ Include:
 7. [ROADMAP / DEVELOPMENT PHASES]
 8. Development setup and constraints: [HARDWARE / ENVIRONMENT / OTHER CONSTRAINTS]
 
-Keep everything simple, practical, and straight to the point. Use Mermaid diagrams where appropriate.
-Do not add unnecessary features or technologies. Do not write application code.
+Keep everything simple, practical, and straight to the point.
+Use Mermaid diagrams where appropriate.
+Do not add unnecessary features or technologies.
+Do not write application code.
+
+IMPORTANT:
+- Clearly separate confirmed decisions from assumptions.
+- Do not invent missing requirements.
+- Keep the MVP scope small and realistic.
+- If there are multiple valid technical options, ask me which one I prefer instead of deciding for me.
+- Make the final documentation easy for a developer to follow and implement.
 ```
 
 <details>
