@@ -25,9 +25,6 @@ Default workspace folder: `jobs/`
 ## Allowed commands
 (none beyond `npx tsc --noEmit`, already allowed)
 
-## Ask commands
-`Bash(npx trigger.dev@latest deploy:*)`
-
 ## CI job
 
 ```yaml

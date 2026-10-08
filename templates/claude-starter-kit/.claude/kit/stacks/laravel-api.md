@@ -15,7 +15,7 @@ Default workspace folder: `api/`
 - `php artisan test`
 - `./vendor/bin/pint --test`
 - `php artisan route:list` when routes change
-- `php artisan migrate` when migrations change (asks first). Never `migrate:fresh` on shared data.
+- `php artisan migrate` when migrations change. Never `migrate:fresh` on shared data.
 
 ## Rules
 - Every user-owned query goes through `$request->user()-><relation>()`. Never a bare `Model::find($id)`.
@@ -28,9 +28,6 @@ Default workspace folder: `api/`
 
 ## Allowed commands
 `Bash(php artisan test:*)`, `Bash(php artisan route:list:*)`, `Bash(./vendor/bin/pint:*)`, `Bash(vendor/bin/pint:*)`
-
-## Ask commands
-`Bash(composer require:*)`, `Bash(php artisan migrate:*)`
 
 ## CI job
 

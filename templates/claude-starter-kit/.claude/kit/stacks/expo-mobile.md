@@ -19,7 +19,7 @@ Default workspace folder: `mobile/`
 - `npx expo-doctor` when dependencies or `app.json` / `app.config.*` change
 
 ## Rules
-- Install Expo-managed packages with `npx expo install <pkg>` (asks first), not `npm install`.
+- Install Expo-managed packages with `npx expo install <pkg>`, not `npm install`.
 - API base URL only from `EXPO_PUBLIC_API_URL`. `localhost` on the phone is the phone; use the laptop's LAN IP.
 - Anything prefixed `EXPO_PUBLIC_` ships inside the app. No secrets.
 - Auth token in `expo-secure-store`, never AsyncStorage.
@@ -30,9 +30,6 @@ Default workspace folder: `mobile/`
 
 ## Allowed commands
 `Bash(npx expo lint:*)`, `Bash(npx expo-doctor:*)`
-
-## Ask commands
-`Bash(npx expo install:*)`, `Bash(npm install:*)`, `Bash(eas build:*)`
 
 ## CI job
 

@@ -55,9 +55,9 @@ For each file below, replace every `KICKOFF:` marker with real content and delet
 | `prompts/_TEMPLATE.md` | Adapt "Manual test steps" to the real device; adapt "Security considerations" bullets to the project. |
 | `.github/workflows/ci.yml` | Add a `changes` filter + one job per workspace from each recipe's "CI job". If the user chose no CI, delete the file. |
 | `.coderabbit.yaml` | Add `path_instructions` per workspace from each recipe, made specific to this project's models and rules. If no CodeRabbit, delete the file. |
-| `.claude/settings.json` | Add each recipe's "Allowed commands" to `allow` and "Ask commands" to `ask`. Keep all existing deny rules. |
+| `.claude/settings.json` | Add each recipe's "Allowed commands" to `allow`. Keep all deny rules and the VibeWise `extraKnownMarketplaces` / `enabledPlugins` entries. |
 | `.github/pull_request_template.md` | Leave as is unless the project needs extra sections. |
-| `.gitignore` | Add each recipe's ignore lines. |
+| `.gitignore` | Add each recipe's ignore lines. Keep `.vibe-wise/`. |
 
 Project skills: create a skill in `.claude/skills/<name>/SKILL.md` only for a procedure that will repeat across many tasks and isn't already covered by AGENTS.md (e.g. "add an API endpoint the house way"). Zero is a fine number. Max 3.
 
@@ -72,7 +72,7 @@ Stack with no recipe: write `.claude/kit/stacks/<stack>.md` in the same format, 
 
 ## 7. Report
 
-Short bullets under **What I set up**, **Next step** (usually `/plan` for roadmap item 01), **Needs your attention** (secrets to create, accounts to sign up for, anything you assumed). Do not commit. Suggest the user review the diff, then `/ship` it as `chore: project setup`.
+Short bullets under **What I set up**, **Next step** (usually `/plan` for roadmap item 01), **Needs your attention** (secrets to create, accounts to sign up for, anything you assumed). Remind the user to run `/vibe-wise:learn` once if they want learning mode (setup in `docs/vibewise-install.md`). Do not commit. Suggest the user review the diff, then `/ship` it as `chore: project setup`.
 
 ## 8. Add workspace (mode from step 0)
 

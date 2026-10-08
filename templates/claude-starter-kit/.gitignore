@@ -16,4 +16,7 @@ Thumbs.db
 # Claude Code personal settings (team settings in .claude/settings.json are committed)
 .claude/settings.local.json
 
+# VibeWise learning notes (personal, per project)
+.vibe-wise/
+
 # Workspace build output — /kickoff adds lines per stack below

@@ -26,9 +26,6 @@ Default workspace folder: `web/`
 ## Allowed commands
 `Bash(npm run lint:*)`, `Bash(npm run build:*)`
 
-## Ask commands
-`Bash(npm install:*)`
-
 ## CI job
 
 ```yaml
