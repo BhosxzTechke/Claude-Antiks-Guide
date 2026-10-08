@@ -1,0 +1,19 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*service-account*.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Claude Code personal settings (team settings in .claude/settings.json are committed)
+.claude/settings.local.json
+
+# Workspace build output — /kickoff adds lines per stack below

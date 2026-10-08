@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# KICKOFF: add path_instructions per workspace from .claude/kit/stacks/*.md, made specific to this project. Delete this file if the project doesn't use CodeRabbit.
+language: en-US
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  auto_review:
+    enabled: true
+    drafts: false
+  path_filters:
+    - "!**/package-lock.json"
+    - "!**/composer.lock"
+    - "!**/pnpm-lock.yaml"
+    - "!prompts/**"
+  path_instructions:
+    - path: "**/.env*"
+      instructions: |
+        Flag as critical any real secret value. Only .env.example with placeholder values belongs in the repo.

@@ -1,0 +1,30 @@
+# KICKOFF: add one output + filter + job per workspace from .claude/kit/stacks/*.md ("CI job"). Delete this file if the project uses no CI.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      example: ${{ steps.filter.outputs.example }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            example:
+              - 'example/**'
+
+  # Workspace jobs go here.
