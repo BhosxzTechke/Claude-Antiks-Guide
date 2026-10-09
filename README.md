@@ -111,7 +111,7 @@ Result: [`examples/dont-forget/MVP.md`](examples/dont-forget/MVP.md)
 
 ## Step 2 — Create the project's AGENTS.md
 
-**Where:** Claude Desktop. **Attach:** the approved MVP doc plus a reference AGENTS.md (for example [`examples/dont-forget/AGENTS.md`](examples/dont-forget/AGENTS.md)).
+**Where:** Claude Desktop. **Attach:** the approved MVP doc plus a reference AGENTS.md (for example [`AGENTS.md`](AGENTS.md)).
 
 The reference only provides structure, tone and discipline. The approved doc provides the requirements.
 
