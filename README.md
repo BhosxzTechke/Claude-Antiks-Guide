@@ -6,6 +6,7 @@ Every project gets the same disciplined process: docs first, strict rules, one a
 
 ```
 New project idea
+  → 0. Blueprint interview        (/blueprint-interview) → approve scope + plan
   → 1. Project documentation      (Claude Desktop)   → review & approve
   → 2. Project AGENTS.md          (Claude Desktop)   → review & approve
   → 3. Add the starter kit        (download + extract)
@@ -22,6 +23,35 @@ New project idea
 |---|---|---|
 | `AGENTS.md` | This project's rules: stack, architecture, data model, security, checks | Yes, written fresh for each project |
 | Starter kit (`templates/`) | The Claude Code workflow: commands, hooks, prompt template, review config | No, same kit every time |
+| `PROJECT_BLUEPRINT.md` | Output of the blueprint interview: product, UX, architecture, decisions, open questions | Yes, one per project |
+
+---
+
+## Step 0 — Run the blueprint interview (recommended)
+
+**Where:** Claude (app or Claude Code) with the [`blueprint-interview`](skills/blueprint-interview/README.md) skill installed. **Output:** an approved `PROJECT_BLUEPRINT.md`. No code yet.
+
+Use this for any new or rebuilt project: website, web app, mobile app, internal system, AI or not. Claude interviews you one question at a time, recommends and challenges decisions, checks current facts with web search, and keeps everything in one file.
+
+```text
+/blueprint-interview
+[Short description of the project]. [Attach old repo / copy doc / screenshots / links if you have them.]
+```
+
+Or just say: *"Interview me before we build [project]."*
+
+What you get before any code:
+
+- Product, users and MVP scope (in / out, by phase)
+- Scenario walkthrough: what the user sees + what happens technically
+- Screen-by-screen wireframes and a page inventory
+- Stack, architecture, data model, security, (AI only if used)
+- Roadmap with spike tasks first
+- A numbered decision log and an open questions list
+
+Install and examples: [`skills/blueprint-interview/README.md`](skills/blueprint-interview/README.md).
+
+**Then:** approve the scope, architecture and roadmap. The approved blueprint replaces the Step 1 prompt below: go straight to Step 2 and attach `PROJECT_BLUEPRINT.md` as the project documentation. For a very small project, the quick Step 1 prompt is still fine.
 
 ---
 
@@ -111,7 +141,7 @@ Result: [`examples/dont-forget/MVP.md`](examples/dont-forget/MVP.md)
 
 ## Step 2 — Create the project's AGENTS.md
 
-**Where:** Claude Desktop. **Attach:** the approved MVP doc plus a reference AGENTS.md (for example [`AGENTS.md`](AGENTS.md)).
+**Where:** Claude Desktop. **Attach:** the approved MVP doc (or `PROJECT_BLUEPRINT.md` from Step 0) plus a reference AGENTS.md (for example [`AGENTS.md`](AGENTS.md)).
 
 The reference only provides structure, tone and discipline. The approved doc provides the requirements.
 
