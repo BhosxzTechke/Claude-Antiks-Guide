@@ -14,7 +14,8 @@ New project idea
   → 5. Create the project skeleton  (part by part)
   → 6. Implement the design system   (ChatGPT image → Claude Code)
   → 7. Build UI with the verify loop
-  → 8. Build one task at a time
+  → 8. Build one task at a time  (S / M / L sizing)
+  → 9. Review with a subagent      (L tasks, before /ship)
 ```
 
 **Two kinds of files:**
@@ -174,6 +175,8 @@ Add any hard rules from your planning that the doc doesn't state, for example "n
 
 > **Must include:** a **"Checks to run"** section with the exact commands for your stack. The kit's `/check` command runs those commands.
 
+> **Keep it lean.** `AGENTS.md` is loaded in **every** session, so every line costs context on every task. Keep only what applies to most tasks: what we're building, how to work, boundaries, security rules, decisions, checks. Move details that only some tasks need (integration specifics, analytics event lists, long stack notes, repeated procedures) into **project skills** (`.claude/skills/<name>/SKILL.md`) or a doc that `AGENTS.md` points to. Rough target: under ~200 lines.
+
 ---
 
 ## Step 3 — Add the starter kit
@@ -240,6 +243,8 @@ If yes:
 If none are necessary, say "No additional skills recommended" and continue.
 Do not install or use any skill without my approval.
 ```
+
+**Project skills grow over time.** When the same procedure repeats across tasks (for example "add an API endpoint: route, Form Request, Policy, Resource, ownership test"), or the same correction comes up twice, ask Claude to turn it into a project skill in `.claude/skills/`. Then `AGENTS.md` stays short and the know-how loads only when needed.
 
 
 ## Step 5 — Create the project skeleton, part by part
@@ -360,8 +365,20 @@ Don't move on to the next screen until the current one passes.
 
 ## Step 8 — Build one task at a time
 
+**First, size the task.** Match the process to the size of the work. A full prompt file for a typo fix is wasted time; skipping the plan on auth or payments is risky.
+
+| Size | Example | Process |
+|---|---|---|
+| **S** — small, obvious, under ~30 lines | Typo, copy change, a friendlier error message, a one-line bug fix | Ask directly → `/check` → `/ship`. No prompt file. |
+| **M** — one feature, existing patterns, a few files | A new screen like the others, a new filter, a small endpoint | **Plan Mode** (Shift+Tab in Claude Code) → approve in chat → build → `/check` → `/ship` |
+| **L** — new feature, schema, auth, security, AI, money, or anything hard to undo | Login, AI parsing, payments, a migration, notifications | `/plan` → `prompts/NN-name.md` → approve → build → **review subagent (Step 9)** → `/check` → `/ship` |
+
+When unsure, size up. If an S or M task grows while building, stop and switch to `/plan`.
+
+**L-task flow:**
+
 ```
-/plan <task> → approve → Claude builds → /check → /verify-ui (UI only) → /ship → review PR → merge → /clear
+/plan <task> → approve → Claude builds → review subagent → fix → /check → /verify-ui (UI only) → /ship → review PR → merge → /clear
 ```
 
 | Command | What it does |
@@ -385,7 +402,57 @@ Example task order (Don't Forget):
 
 - **One task = one prompt file = one branch = one PR = one fresh session.** Never ask for the whole app in one request.
 - **Log decisions.** When you settle something, add one line to `docs/decisions.md` so Claude stops reopening it.
-- **Fix the rule, not just the output.** If Claude keeps making the same mistake, add a line to `AGENTS.md`.
+- **Fix the rule, not just the output.** If Claude keeps making the same mistake, add a line to `AGENTS.md`, or a project skill if it's a whole procedure.
+- **Size before you start.** S = just do it, M = Plan Mode, L = prompt file + review.
+
+---
+
+## Step 9 — Review with a subagent
+
+A **subagent** is a separate Claude with its own fresh context. It does one job and returns only a short report. Two benefits:
+
+- **Fresh eyes:** it didn't write the code, so it isn't biased toward it. Like an outside inspector checking a contractor's work.
+- **Clean context:** the main session doesn't fill up with file dumps.
+
+**Where subagents help in this workflow:**
+
+| When | Subagent | What it does |
+|---|---|---|
+| `/plan`, while inspecting code | **Explore** (built into Claude Code) | Reads many files, returns a short summary for the prompt's "Code inspected" section |
+| After building an **L** task, before `/ship` | **code-reviewer** (custom, below) | Checks the diff against the prompt file's acceptance criteria and security section, flags scope creep |
+| Two independent tasks at the same time | Parallel agents, each in its own **git worktree** | For example API tests and a mobile screen, with no file conflicts |
+
+**Don't use subagents** for S tasks, for tasks where two agents would edit the same files, or when the job needs the whole conversation history. They cost extra tokens.
+
+**Add the reviewer to a project:** create `.claude/agents/code-reviewer.md`:
+
+```markdown
+---
+name: code-reviewer
+description: Reviews the current diff against the approved prompt file before /ship. Use after implementing an L-size task.
+tools: Read, Grep, Glob, Bash(git diff:*)
+---
+
+You are a strict senior reviewer. You did not write this code.
+
+1. Read the prompt file named in the request (prompts/NN-*.md).
+2. Run `git diff main...HEAD` and read every changed file.
+3. Check each acceptance criterion: met / not met / can't verify.
+4. Check security: every query scoped to the authenticated user, no secrets
+   in the client, AI output validated, no `.env` changes.
+5. Flag anything in the diff that is NOT in the prompt (scope creep).
+
+Report: a table of criteria, then the top 5 issues ranked by severity.
+Do not edit files.
+```
+
+**Use it:**
+
+```text
+Use the code-reviewer subagent to review this task against prompts/NN-name.md.
+```
+
+Fix what it finds (or tell Claude which findings to skip and why), then `/check` and `/ship`. CI and CodeRabbit still review the PR after that; the subagent catches issues earlier, before they reach the PR.
 
 ---
 
