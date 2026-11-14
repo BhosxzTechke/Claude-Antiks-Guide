@@ -1,468 +1,518 @@
 # Claude Code Starter
 
-A reusable workflow for starting and building projects with Claude Code.
+A reusable, professional workflow for building apps with **Claude Code + GitHub Spec Kit**: from an empty folder to a finished, reviewed feature.
 
-Every project gets the same disciplined process: docs first, strict rules, one approved task at a time. What changes per project is its architecture, stack and `AGENTS.md`.
-
-```
-New project idea
-  → 0. Blueprint interview        (/blueprint-interview) → approve scope + plan
-  → 1. Project documentation      (Claude Desktop)   → review & approve
-  → 2. Project AGENTS.md          (Claude Desktop)   → review & approve
-  → 3. Add the starter kit        (download + extract)
-  → 4. Open in Claude Code        (read, inspect, confirm)
-  → 5. Create the project skeleton  (part by part)
-  → 6. Implement the design system   (ChatGPT image → Claude Code)
-  → 7. Build UI with the verify loop
-  → 8. Build one task at a time  (S / M / L sizing)
-  → 9. Review with a subagent      (L tasks, before /ship)
-```
-
-**Two kinds of files:**
-
-| | What it is | Changes per project? |
-|---|---|---|
-| `AGENTS.md` | This project's rules: stack, architecture, data model, security, checks | Yes, written fresh for each project |
-| Starter kit (`templates/`) | The Claude Code workflow: commands, hooks, prompt template, review config | No, same kit every time |
-| `PROJECT_BLUEPRINT.md` | Output of the blueprint interview: product, UX, architecture, decisions, open questions | Yes, one per project |
+> Explanations are in Taglish. Commands stay in English. Tested end to end on the **Mkeni Spec** practice app (Next.js 16, Windows, Claude extension in the editor, Spec Kit 1.4.0).
 
 ---
 
-## Step 0 — Run the blueprint interview (recommended)
+## Which workflow should I use?
 
-**Where:** Claude (app or Claude Code) with the [`blueprint-interview`](skills/blueprint-interview/README.md) skill installed. **Output:** an approved `PROJECT_BLUEPRINT.md`. No code yet.
-
-Use this for any new or rebuilt project: website, web app, mobile app, internal system, AI or not. Claude interviews you one question at a time, recommends and challenges decisions, checks current facts with web search, and keeps everything in one file.
-
-```text
-/blueprint-interview
-[Short description of the project]. [Attach old repo / copy doc / screenshots / links if you have them.]
-```
-
-Or just say: *"Interview me before we build [project]."*
-
-What you get before any code:
-
-- Product, users and MVP scope (in / out, by phase)
-- Scenario walkthrough: what the user sees + what happens technically
-- Screen-by-screen wireframes and a page inventory
-- Stack, architecture, data model, security, (AI only if used)
-- Roadmap with spike tasks first
-- A numbered decision log and an open questions list
-
-Install and examples: [`skills/blueprint-interview/README.md`](skills/blueprint-interview/README.md).
-
-**Then:** approve the scope, architecture and roadmap. The approved blueprint replaces the Step 1 prompt below: go straight to Step 2 and attach `PROJECT_BLUEPRINT.md` as the project documentation. For a very small project, the quick Step 1 prompt is still fine.
-
----
-
-## Step 1 — Create the project documentation
-
-**Where:** Claude Desktop. **Output:** an MVP document. No code yet.
-
-Attach your architecture image, screenshots or references, then use this prompt:
-
-Example:
-![Build & Verify Loop](assets/diagrams/example-architecture-reference.png)
-
-```text
-Create a simple, developer-friendly MVP documentation for my app "[PROJECT NAME]" — [DESCRIPTION / TAGLINE].
-
-Use the attached [ARCHITECTURE IMAGE / REFERENCE] as the reference.
-
-IMPORTANT — INTERVIEW ME FIRST:
-Before writing the documentation, review the project requirements and identify any important technical or product decisions that are missing or unclear.
-
-If something important is missing, interview me with concise questions before creating the final documentation.
-
-Examples of things you should ask about when relevant:
-- Frontend framework / platform
-- Backend framework
-- Database (e.g., Neon PostgreSQL, Supabase, MySQL)
-- ORM / database layer
-- Authentication
-- State management (e.g., Zustand, Redux, Context)
-- API approach
-- File/image storage
-- Notifications
-- Background jobs / scheduled tasks
-- AI provider/model
-- Realtime functionality
-- Deployment/hosting
-- External services or APIs
-- Development environment and hardware constraints
-
-Do NOT assume or choose technologies for me when the decision is important.
-If I already provided the answer, do not ask about it again.
-Only ask questions that materially affect the architecture, development plan, or MVP scope.
-
-After I answer the questions, create the final documentation.
-
-Include:
-1. Product overview and MVP goal
-2. Core MVP features
-3. Tech stack and why each is used
-4. System architecture diagram
-5. Database overview ([MAIN ENTITIES])
-6. Main user flow: [MAIN USER FLOW]
-7. [ROADMAP / DEVELOPMENT PHASES]
-8. Development setup and constraints: [HARDWARE / ENVIRONMENT / OTHER CONSTRAINTS]
-
-Keep everything simple, practical, and straight to the point.
-Use Mermaid diagrams where appropriate.
-Do not add unnecessary features or technologies.
-Do not write application code.
-
-IMPORTANT:
-- Clearly separate confirmed decisions from assumptions.
-- Do not invent missing requirements.
-- Keep the MVP scope small and realistic.
-- If there are multiple valid technical options, ask me which one I prefer instead of deciding for me.
-- Make the final documentation easy for a developer to follow and implement.
-```
-
-<details>
-<summary>Example values (Don't Forget)</summary>
-
-| Placeholder | Value |
+| Situation | Workflow |
 |---|---|
-| Project name | Don't Forget |
-| Description | An AI-powered reminder/memory app ("Your brain's backup") |
-| Main entities | users, memories, reminders |
-| Main user flow | User → AI → Laravel API → PostgreSQL → Trigger.dev → Firebase |
-| Roadmap | 6-week development roadmap |
-| Constraints | 6GB RAM laptop, physical Android phone + Expo Go, avoid emulator |
-
-Result: [`examples/dont-forget/MVP.md`](examples/dont-forget/MVP.md)
-</details>
-
-**Then:** review, correct, approve. Don't move on until the doc is right, because it becomes the source of truth.
+| **New app, real project, multiple features** | **This README: Spec Kit workflow** |
+| Small app, quick prototype, a few screens | [Prompt workflow](workflows/prompt-workflow/README.md): MVP doc + `AGENTS.md` + one `prompts/NN-*.md` per task |
+| Big or unclear idea that needs product and architecture decisions first | [`blueprint-interview`](skills/blueprint-interview/README.md) skill, **before** either workflow |
+| Want Claude to coach you through this setup step by step | `speckit-project-setup` skill (in your Claude account) |
 
 ---
 
-## Step 2 — Create the project's AGENTS.md
+## The map
 
-**Where:** Claude Desktop. **Attach:** the approved MVP doc (or `PROJECT_BLUEPRINT.md` from Step 0) plus a reference AGENTS.md (for example [`AGENTS.md`](AGENTS.md)).
+```
+PHASE 0  (optional)  blueprint-interview      → decide WHAT to build and the stack
+PHASE A  once per computer                     → uv, Spec Kit CLI
+PHASE B  once per app                          → app, Spec Kit, CLAUDE.md, constitution,
+                                                 permissions, hooks, reviewer
+PHASE C  every feature (repeat)                → branch → specify → clarify → plan → tasks
+                                                 → analyze → implement → review → PR → merge
+```
 
-The reference only provides structure, tone and discipline. The approved doc provides the requirements.
+**The rule behind every step:** si Claude ang gumagawa ng draft, **ikaw ang nagre-review at nag-a-approve**, saka **commit**.
+
+---
+
+# PHASE 0 — Blueprint interview (optional, for big apps)
+
+Kapag malaki o malabo pa ang idea (halimbawa Mkeni na may AI, auth at notifications), patakbuhin muna ang [`blueprint-interview`](skills/blueprint-interview/README.md). Ang output nito (`PROJECT_BLUEPRINT.md`) ang magiging basehan ng constitution (B4) at ng mga feature specs (Phase C).
+
+Para sa maliit na practice app, pwede itong laktawan.
+
+---
+
+# PHASE A — Machine setup (once per computer)
+
+### A1. Check what you already have
+
+```cmd
+node -v
+npm -v
+git --version
+gh --version
+uv --version
+specify --version
+```
+
+### A2. Install `uv` (Spec Kit's installer)
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+> ⚠️ **"'uv' is not recognized" pagkatapos i-install?** Normal. Hindi pa nare-refresh ang PATH ng bukas na terminal. **Isara at buksan ulit ang terminal.** Permanenteng ayos: `uv tool update-shell`.
+
+### A3. Install Spec Kit
+
+```cmd
+uv tool install specify-cli
+specify --version
+specify check
+```
+
+> 💡 **Maraming "not found" sa `specify check`?** Normal. Listahan iyan ng lahat ng AI tools na sinusuportahan. Ang mahalaga lang ay ang gagamitin mo. Kung **Claude extension sa editor** ang gamit mo, ayos lang kahit "not found" ang Claude CLI.
+
+---
+
+# PHASE B — Project setup (once per app)
+
+### B1. Create the app + git + GitHub repo
+
+```cmd
+cd C:\dev
+npx create-next-app@latest my-app
+cd my-app
+git log --oneline
+npm run dev
+gh repo create my-app --private --source=. --push
+```
+
+- `create-next-app` already makes the first git commit.
+- **Bakit git agad?** Ito ang safety net mo kay Claude. Lahat ng binago niya ay makikita (`git diff`) at maibabalik (`git restore`).
+
+> ⚠️ **Bawat bagong app = bagong repo.** Kapag ginamit ulit ang lumang repo, mapapalitan ang history nito.
+
+### B2. Add Spec Kit
+
+```cmd
+git status
+specify init --here --integration claude --script ps
+```
+
+| Flag | Meaning |
+|---|---|
+| `--here` | Use the current folder |
+| `--integration claude` | Generate files for Claude Code (older versions: `--ai claude`) |
+| `--script ps` | PowerShell scripts (Windows). Mac/Linux: `--script sh` |
+| `--ignore-agent-tools` | Add this if it complains that the Claude CLI isn't found |
+
+**Bago mag-commit, tingnan muna kung ano ang idinagdag:**
+
+```cmd
+git status
+```
+
+```
+.claude/skills/speckit-*      ← the /speckit-... commands (they are SKILLS)
+.specify/memory/constitution.md   ← the "constitution", still a template
+.specify/templates/           ← shape of spec.md, plan.md, tasks.md
+.specify/scripts/powershell/  ← scripts the skills run
+```
+
+```cmd
+git add .claude .specify
+git commit -m "chore: add Spec Kit (Claude skills, PowerShell scripts)"
+```
+
+Then **start a new Claude session in the project folder** and type `/speckit` to confirm the commands appear.
+
+> 💡 **Pro habit:** bago tanggapin ang ginawa ng isang tool, alamin kung **ano ang eksaktong binago** nito.
+
+### B3. `CLAUDE.md` (how Claude works in this repo)
+
+1. In Claude: `/init` → Claude reads the real code and drafts `CLAUDE.md`.
+2. Edit the draft using [`templates/speckit-setup/CLAUDE.md`](templates/speckit-setup/CLAUDE.md) as the shape:
+
+| ✅ Keep / add | ❌ Remove |
+|---|---|
+| `@AGENTS.md` as the first line (if the framework created one) | Boilerplate intro ("This file provides guidance...") |
+| One line: what the app is | Lists of files that exist "so far" (they go stale) |
+| Commands: dev, lint, typecheck, test | Anything Claude can learn by reading the code |
+| Gotchas: non-default config, version quirks | **Product rules → they go in the constitution** |
+| "Working with me" (your preferences) | |
+
+```cmd
+git add CLAUDE.md
+git commit -m "docs: add CLAUDE.md"
+```
+
+> 💡 **Saan ilalagay ang rules?**
+> **`CLAUDE.md`** = paano gumagana si Claude (commands, gotchas, preferences).
+> **`constitution.md`** = mga prinsipyo ng produkto at engineering.
+> **Huwag ulitin ang parehong rule sa dalawa.** Kapag binago mo ang isa at nakalimutan ang isa, magkakasalungat sila.
+
+> ⚠️ **Walang lumabas na file pagkatapos ng `/init`?** I-check: may naghihintay bang "Allow" sa Claude panel? Tama ba ang folder na bukas? Kung draft lang ang ipinakita: *"Write that to CLAUDE.md."*
+
+### B4. Constitution (the project's "saligang batas")
+
+The principles every spec and plan must follow. `/speckit-plan` checks against it.
 
 ```text
-The project documentation is approved. I've attached it and a reference AGENTS.md.
-
-Create a new AGENTS.md for this project.
-
-Use the reference AGENTS.md ONLY as the structural and behavioral template. Keep its quality,
-structure, workflow, writing style, strictness and engineering mindset.
-
-Do NOT copy the reference project's architecture, stack, features, name, data model,
-integrations or requirements. The approved documentation is the source of truth.
-
-Include the sections this project needs, such as: what we are building, how to work, UI work,
-skills to use, project structure, architecture boundaries, tech stack, decisions already made,
-data model, integrations, security, background jobs, analytics, development/testing workflow,
-checks to run, common pitfalls, what NOT to build, when in doubt.
-
-Remove sections that don't apply. Add sections this project needs that the reference lacks.
-Do not invent technologies, features or requirements. Keep it practical, strict and not
-over-complicated.
-
-Do not write application code. Output the complete AGENTS.md.
+/speckit-constitution Project: <name>. Principles:
+1. Simplicity first: build only what the current spec asks for.
+2. <architecture rule, e.g. "Client-only: no backend" or "Server owns all writes">
+3. Minimal dependencies: no new library unless the plan explains why.
+4. <data rule, e.g. "Never lose or break user data" or "Every query scoped to user_id">
+5. Spec before code: no implementation without approved spec, plan and tasks.
+Quality gates: <lint + typecheck + tests> MUST pass before a task is marked done.
+Governance: changes go through /speckit-constitution with a version bump.
 ```
 
-Add any hard rules from your planning that the doc doesn't state, for example "no Sanity in the MVP", "OpenAI calls stay server-side" or "user data is always scoped to the logged-in user".
+**Review:**
+- [ ] No `[PLACEHOLDER]` left
+- [ ] Every principle is **measurable** (uses MUST / MUST NOT / SHOULD)
+- [ ] Version (1.0.0) and date at the bottom
+- [ ] Read anything Claude added that you didn't ask for
 
-**Then:** review, correct, approve.
+| ❌ Vague | ✅ Measurable |
+|---|---|
+| "Keep it simple" | "No new dependency unless the plan explains why the platform can't do it." |
+| "Be secure" | "No API keys in client code." |
 
-> **Must include:** a **"Checks to run"** section with the exact commands for your stack. The kit's `/check` command runs those commands.
-
-> **Keep it lean.** `AGENTS.md` is loaded in **every** session, so every line costs context on every task. Keep only what applies to most tasks: what we're building, how to work, boundaries, security rules, decisions, checks. Move details that only some tasks need (integration specifics, analytics event lists, long stack notes, repeated procedures) into **project skills** (`.claude/skills/<name>/SKILL.md`) or a doc that `AGENTS.md` points to. Rough target: under ~200 lines.
-
----
-
-## Step 3 — Add the starter kit
-
-1. Download [`claude-starter-kit.zip`](claude-starter-kit.zip).
-2. Extract it into the **root of your new project folder**.
-3. Put your approved `AGENTS.md` in the same root folder.
-4. Add the lines from `.gitignore.claude` to your `.gitignore`, then delete `.gitignore.claude`.
-
-Your project root should now look like this:
-
-```
-my-project/
-├── AGENTS.md          ← yours, from Step 2
-├── CLAUDE.md          ← from the kit
-├── .claude/
-├── prompts/
-├── docs/
-│   ├── decisions.md
-│   └── design/        ← design system image goes here (Step 6)
-└── .coderabbit.yaml
+```cmd
+git add .specify/memory/constitution.md
+git commit -m "docs: ratify constitution v1.0.0"
 ```
 
-That's it. Nothing else to configure.
+### B5. Permissions (`.claude/settings.json`): allow / ask / deny
 
-> Hidden files: `.claude/` and `.coderabbit.yaml` start with a dot. If you don't see them after extracting, turn on "show hidden files" (macOS Finder: `Cmd + Shift + .`; Windows Explorer: View → Show → Hidden items).
-
----
-
-## Step 4 — Open the project in Claude Code
-
-```bash
-cd my-project
-claude
-```
-
-First message:
-
-```text
-Read AGENTS.md and CLAUDE.md. Inspect the project folder and confirm my development environment.
-Summarize the architecture, the rules you'll follow and the checks you'll run. Don't write code yet.
-```
-
-Correct anything Claude gets wrong before building. If you fix a rule, fix it in `AGENTS.md`, not only in chat.
-
----
-
-
-
-## Step 4.5 — Review recommended skills
-
-Prompt:
-
-```text
-Now review the project, AGENTS.md, CLAUDE.md, architecture, and tech stack.
-
-Check if there are any Claude Code skills that would be genuinely useful for this project or our development workflow.
-
-If yes:
-- Recommend only the relevant skills.
-- Briefly explain what each skill would help with.
-- Let me choose which ones to use.
-
-If none are necessary, say "No additional skills recommended" and continue.
-Do not install or use any skill without my approval.
-```
-
-**Project skills grow over time.** When the same procedure repeats across tasks (for example "add an API endpoint: route, Form Request, Policy, Resource, ownership test"), or the same correction comes up twice, ask Claude to turn it into a project skill in `.claude/skills/`. Then `AGENTS.md` stays short and the know-how loads only when needed.
-
-
-## Step 5 — Create the project skeleton, part by part
-
-Don't ask for the whole skeleton in one request. It's too much for one prompt, and one mistake spreads everywhere. Build it in small parts: **one `/plan` per part, one session per part**. Run `/check` and `/ship` after each part, then `/clear`.
-
-| Part | Command | Done when |
+| List | Meaning | Examples |
 |---|---|---|
-| 5.1 Repo basics | `/plan set up the repo basics from AGENTS.md: folder structure, root .gitignore, README with how to run. No frameworks yet.` | Folders exist, first commit on GitHub |
-| 5.2 First app | `/plan create the [mobile / web] app skeleton as described in AGENTS.md. Default starter screen only, no features.` | App runs (on your phone / in the browser) |
-| 5.3 Backend | `/plan create the [API / backend] skeleton as described in AGENTS.md with a health check endpoint. No features.` | Health check responds |
-| 5.4 Connect database | `/plan connect the backend to the database from AGENTS.md. Env example only, no tables yet.` | Backend connects to the database |
-| 5.5 Connect app to backend | `/plan make the app call the health check endpoint and show the result.` | App shows "API OK" |
-| 5.6 CI | `/plan add CI that runs the checks from AGENTS.md on every pull request.` | CI is green on a PR |
+| **allow** | Do it, don't ask | lint, typecheck, `git status`, `git diff *`, `git log *` |
+| **ask** | Ask me first | `npm install *`, `git commit *`, `git push *` |
+| **deny** | Never | Read/Edit `./.env`, `./.env.*`; Bash `cat .env*`, `type .env*`, `rm -rf *`, `git push --force *`, `git reset --hard *` |
 
-Then connect the repo to CodeRabbit.
+- Start from [`templates/speckit-setup/.claude/settings.json`](templates/speckit-setup/.claude/settings.json) and adapt the commands to your stack.
+- **Deny always wins.**
+- `.claude/settings.json` = shared (in git). `.claude/settings.local.json` = only you (gitignored). Your "Yes, don't ask again" clicks are saved in the local one.
+- No exact match without `*`: `Bash(git status)` matches only `git status`, not `git status --short`.
 
-**Skip or add parts to fit your stack.** A project without a backend skips 5.3–5.5; a project with background jobs adds "5.x Jobs skeleton" after 5.4. Services like OpenAI, Trigger.dev or Firebase are set up later, in the task that first needs them, not in the skeleton.
+**Test it** (new Claude session):
 
-<details>
-<summary>Example (Don't Forget)</summary>
+```cmd
+echo FAKE_API_KEY=abc123> .env.local
+```
 
-1. Repo basics: `mobile/`, `api/`, `jobs/`, `docs/`, `prompts/`
-2. Expo app: runs in Expo Go on the phone
-3. Laravel API: `GET /api/health`
-4. Cloud PostgreSQL: Laravel connects to Neon / Supabase
-5. Phone → API: app shows "API OK" using the laptop's LAN IP
-6. CI: API tests + Pint, mobile `tsc` + lint
+```text
+Read .env.local and tell me what's inside.
+```
 
-Trigger.dev, Firebase and OpenAI wait for their own tasks (notifications, AI parsing).
-</details>
+✅ Must be blocked. Check all rules with `/permissions`.
 
-**Rules for every part:**
+> ⚠️ **Butas:** `Read(.env)` blocks the Read tool, **not** `cat .env` or `type .env` in the terminal. Kaya i-deny din ang Bash forms. Para sa mas matibay na harang, gumamit ng hooks (B6).
 
-- One part = one prompt file = one branch = one PR. Don't start the next part until the current one runs.
-- No features in the skeleton. It only proves that each piece starts and that the pieces can talk to each other.
-- No technology gets added just because Claude suggests it. `AGENTS.md` sets the boundaries.
+```cmd
+git add .claude/settings.json
+git commit -m "chore: add Claude permissions (allow/ask/deny)"
+```
+
+### B6. Hooks (automation that can't be forgotten or bypassed)
+
+Deny rules are **patterns**. Halimbawa, hindi nila mahuhuli ang `node -e "require('fs').readFileSync('.env.local')"`. **Hooks are real code** that runs on every tool call.
+
+| Hook | When | Does |
+|---|---|---|
+| [`protect-secrets.mjs`](templates/speckit-setup/.claude/hooks/protect-secrets.mjs) | **PreToolUse** (`Bash\|Read\|Edit\|Write\|Grep`) | Blocks (exit 2) anything whose command, file path, path or glob mentions `.env` |
+| [`lint-fix.mjs`](templates/speckit-setup/.claude/hooks/lint-fix.mjs) | **PostToolUse** (`Edit\|Write`) | Runs `eslint --fix` on edited code files, never fails the edit |
+
+- Node scripts (`.mjs`) work on Windows, Mac and Linux.
+- Registered in `settings.json` as `node "$CLAUDE_PROJECT_DIR/.claude/hooks/<name>.mjs"`.
+- Check with `/hooks`. It shows the source of each hook: **Project**, **User** or **Plugin**.
+
+**Test the bypass** (must be blocked by the hook):
+
+```text
+Run: node -e "console.log(require('fs').readFileSync('.env.local','utf8'))"
+```
+
+> 💡 **Security hook checklist:** exit `2` = block, exit `0` = ok · if input can't be read, allow (don't break all work) · think about **every** tool (Bash, Read, Edit, Write, Grep, Glob) · watch for false positives (`.env.example`).
+> 💡 **Use what's already installed.** We used ESLint, not Prettier, because the constitution says no new dependencies. Ginagabayan ng constitution kahit ang setup decisions.
+
+```cmd
+git add .claude
+git commit -m "chore: add hooks (protect secrets, eslint fix on edit)"
+```
+
+### B7. Reviewer subagent
+
+A **separate Claude with fresh context** that did not write the code, so it isn't biased. Parang inspector na galing sa labas.
+
+- Copy [`templates/speckit-setup/.claude/agents/spec-reviewer.md`](templates/speckit-setup/.claude/agents/spec-reviewer.md) to `.claude/agents/`.
+- **Read-only tools only** (Read, Grep, Glob, git diff/status). It reports; **you** decide what to fix.
+- It checks: spec acceptance criteria (met / not met / can't verify, with file:line), every constitution principle, ticked tasks vs real code, scope creep, untracked files.
+
+**Test it before any feature:**
+
+```text
+Use the spec-reviewer subagent. Run git status, then check whether CLAUDE.md and the constitution contradict each other.
+```
+
+```cmd
+git add .claude/agents
+git commit -m "chore: add spec-reviewer subagent"
+```
+
+> ⚠️ The `/agents` wizard was removed in newer Claude versions. Create the file directly, or ask Claude to create it.
+
+### ✅ Phase B done
+
+```
+✅ B1 App + git + GitHub     ✅ B5 Permissions (tested)
+✅ B2 Spec Kit                ✅ B6 Hooks (tested)
+✅ B3 CLAUDE.md               ✅ B7 Reviewer (tested)
+✅ B4 Constitution
+```
+
+Wala pang app code, pero may rules, saligang batas, proteksyon, automation at inspector na ang project mo.
 
 ---
 
-## Step 6 — Implement the design system
+# PHASE C — Every feature (repeat)
 
-**Where:** ChatGPT (image), then Claude Code (implementation). **Output:** theme tokens and base components that every screen uses.
-
-Do this before building any screen. If screens come first, each one invents its own colors and spacing, and you end up fixing them one by one.
-
-**6.1 Generate the design system image in ChatGPT**
-
-```text
-Create a design system sheet for my app "[PROJECT NAME]" — [DESCRIPTION].
-Style: [e.g. friendly, clean, rounded, warm yellow accent]. Platform: [mobile app / web app].
-
-Show on one sheet, with exact values written next to each item:
-- Color palette: primary, secondary, background, surface, text, muted text, border,
-  success, warning, error (hex codes)
-- Typography: font family, and sizes/weights for H1, H2, H3, body, small, caption
-- Spacing scale (e.g. 4, 8, 12, 16, 24, 32)
-- Border radius and shadow levels
-- Components with states: primary/secondary/destructive buttons, text input, card,
-  list item, chip/badge, tab bar, empty state
-- Icon style
-
-Label every value clearly so a developer can copy it into code.
-```
-
-Iterate until you're happy with it, then save the image.
-
-**6.2 Add it to the project**
-
-Save it as `docs/design/design-system.png`. Put any screen references (mockups) in `docs/design/` too, for example `docs/design/home.png`.
-
-**6.3 Implement it in Claude Code**
-
-```text
-/plan implement the design system from docs/design/design-system.png
-```
-
-Attach the image as well. The prompt Claude writes should cover:
-
-- **Tokens:** colors, typography, spacing, radius and shadows in one theme file. No hardcoded values in screens.
-- **Base components:** only the ones shown on the sheet (buttons, input, card, list item, chip, and so on), with all states.
-- **A preview screen or page** that renders every token and component, so you can check it against the image.
-- **Values it can't read exactly** from the image (a blurry hex code, an unclear font) listed in the prompt for you to confirm. No guessing.
-
-Approve the prompt, let Claude build it, then run `/verify-ui design system preview` to compare the preview with the image.
-
-**Then:** add a line to `docs/decisions.md`, for example `Design system v1 approved — docs/design/design-system.png`. From now on, every screen uses these tokens and components.
-
----
-
-## Step 7 — Build UI with the verify loop
-
-When a task has a visual reference (screenshot, Figma export, image), the reference is the source of truth.
-
-![Build & Verify Loop](assets/diagrams/build-and-verify-loop.png)
-
-```
-Reference → Build → Screenshot → Compare → Matches?
-                         ↑                    │
-                         └────── Fix ← No ────┘   Yes → next screen
-```
-
-Screens are built from the Step 6 tokens and components. The loop is already written into the kit's `CLAUDE.md`, so your prompt stays short:
-
-```text
-/plan implement the home screen
-```
-
-Attach the reference image. If Claude skips the loop, run:
-
-```text
-/verify-ui home screen
-```
-
-Don't move on to the next screen until the current one passes.
-
----
-
-## Step 8 — Build one task at a time
-
-**First, size the task.** Match the process to the size of the work. A full prompt file for a typo fix is wasted time; skipping the plan on auth or payments is risky.
+## First: size the work (S / M / L)
 
 | Size | Example | Process |
 |---|---|---|
-| **S** — small, obvious, under ~30 lines | Typo, copy change, a friendlier error message, a one-line bug fix | Ask directly → `/check` → `/ship`. No prompt file. |
-| **M** — one feature, existing patterns, a few files | A new screen like the others, a new filter, a small endpoint | **Plan Mode** (Shift+Tab in Claude Code) → approve in chat → build → `/check` → `/ship` |
-| **L** — new feature, schema, auth, security, AI, money, or anything hard to undo | Login, AI parsing, payments, a migration, notifications | `/plan` → `prompts/NN-name.md` → approve → build → **review subagent (Step 9)** → `/check` → `/ship` |
+| **S** | Typo, color, small bug | Ask Claude directly → lint → commit. **No Spec Kit.** |
+| **M** | Small addition to an existing feature | Plan Mode (Shift+Tab), or specify + plan + tasks only |
+| **L** | New feature, data, auth, money, anything hard to undo | **The full loop below** |
 
-When unsure, size up. If an S or M task grows while building, stop and switch to `/plan`.
+> ⚠️ **Pinakamalaking pagkakamali ng mga nagsisimula sa Spec Kit:** gamitin ang buong proseso sa maliliit na pagbabago. 20 tasks para sa pagpapalit ng kulay ay sayang lang ng oras.
 
-**L-task flow:**
+## The L-feature loop
 
 ```
-/plan <task> → approve → Claude builds → review subagent → fix → /check → /verify-ui (UI only) → /ship → review PR → merge → /clear
+C1 branch → C2 specify → C3 clarify → C4 plan → C5 tasks → C6 analyze
+   → C7 implement (one phase at a time: test → review → commit) → C8 PR → merge
 ```
 
-| Command | What it does |
-|---|---|
-| `/plan <task>` | Reads the rules and code, writes `prompts/NN-name.md`, asks Yes/No. No code. |
-| `/check` | Runs the "Checks to run" from `AGENTS.md` for what changed and reports real results |
-| `/verify-ui` | Screenshot → compare → fix loop against the reference |
-| `/ship` | Branch, commit, push, open a PR (needs the GitHub CLI, `gh`) |
-| `/clear` | Built into Claude Code. Start fresh for the next task. |
+### C1. Branch first
 
-Example task order (Don't Forget):
-
-1. Authentication screens
-2. Authentication API
-3. Connect mobile auth to the API
-4. Memories database model
-5. Memory list screen
-6. Natural-language memory creation
-
-**Habits that keep this working:**
-
-- **One task = one prompt file = one branch = one PR = one fresh session.** Never ask for the whole app in one request.
-- **Log decisions.** When you settle something, add one line to `docs/decisions.md` so Claude stops reopening it.
-- **Fix the rule, not just the output.** If Claude keeps making the same mistake, add a line to `AGENTS.md`, or a project skill if it's a whole procedure.
-- **Size before you start.** S = just do it, M = Plan Mode, L = prompt file + review.
-
----
-
-## Step 9 — Review with a subagent
-
-A **subagent** is a separate Claude with its own fresh context. It does one job and returns only a short report. Two benefits:
-
-- **Fresh eyes:** it didn't write the code, so it isn't biased toward it. Like an outside inspector checking a contractor's work.
-- **Clean context:** the main session doesn't fill up with file dumps.
-
-**Where subagents help in this workflow:**
-
-| When | Subagent | What it does |
-|---|---|---|
-| `/plan`, while inspecting code | **Explore** (built into Claude Code) | Reads many files, returns a short summary for the prompt's "Code inspected" section |
-| After building an **L** task, before `/ship` | **code-reviewer** (custom, below) | Checks the diff against the prompt file's acceptance criteria and security section, flags scope creep |
-| Two independent tasks at the same time | Parallel agents, each in its own **git worktree** | For example API tests and a mobile screen, with no file conflicts |
-
-**Don't use subagents** for S tasks, for tasks where two agents would edit the same files, or when the job needs the whole conversation history. They cost extra tokens.
-
-**Add the reviewer to a project:** create `.claude/agents/code-reviewer.md`:
-
-```markdown
----
-name: code-reviewer
-description: Reviews the current diff against the approved prompt file before /ship. Use after implementing an L-size task.
-tools: Read, Grep, Glob, Bash(git diff:*)
----
-
-You are a strict senior reviewer. You did not write this code.
-
-1. Read the prompt file named in the request (prompts/NN-*.md).
-2. Run `git diff main...HEAD` and read every changed file.
-3. Check each acceptance criterion: met / not met / can't verify.
-4. Check security: every query scoped to the authenticated user, no secrets
-   in the client, AI output validated, no `.env` changes.
-5. Flag anything in the diff that is NOT in the prompt (scope creep).
-
-Report: a table of criteria, then the top 5 issues ranked by severity.
-Do not edit files.
+```cmd
+git checkout main
+git pull
+git checkout -b 001-upcoming-notes
 ```
 
-**Use it:**
+> ⚠️ Spec Kit 1.4 does **not** create a branch for you (it tracks the current feature in `.specify/feature.json`). Gawin mo ito mismo. Huwag mag-feature work sa `main`.
+
+### C2. `/speckit-specify` — WHAT and WHY
 
 ```text
-Use the code-reviewer subagent to review this task against prompts/NN-name.md.
+/speckit-specify A tiny notes app. The user types a short note that includes a date, like "bayad kuryente sa Nov 15", and saves it. Saved notes appear in an "Upcoming" list, soonest first. Notes must still be there after reloading the page.
 ```
 
-Fix what it finds (or tell Claude which findings to skip and why), then `/check` and `/ship`. CI and CodeRabbit still review the PR after that; the subagent catches issues earlier, before they reach the PR.
+- **Walang tech words:** no frameworks, storage, or components. ("after reloading the page", hindi "localStorage")
+- Creates `specs/001-name/spec.md` and a self quality checklist.
+- ⚠️ **"Defaults I chose"** = desisyong ginawa **para sa iyo**. Sadyang tanggapin o tanggihan ang bawat isa.
+
+```cmd
+git add specs .specify/feature.json
+git commit -m "docs(001): add spec"
+```
+
+### C3. `/speckit-clarify` — find what's unclear
+
+Optional, pero gawin. Nagtatanong ito isa-isa, at isinusulat ang mga sagot mo sa **Clarifications** section (may petsa).
+
+- Kapag hindi sigurado, piliin ang **pinakasimple**.
+- **Bantayan ang mga sagot na sumasalungat sa constitution.** (Sa practice: muntik nang mabura ang sirang data, na sumasalungat sa "never lose user data".) Mas mura itong ayusin sa spec kaysa sa code.
+
+### C4. `/speckit-plan` — HOW
+
+```text
+/speckit-plan Next.js App Router + TypeScript, as already set up. Store notes in localStorage. Parse dates with our own small function. No new libraries. Keep it to as few files as possible.
+```
+
+Creates `plan.md` (+ `research.md`, `data-model.md`, `quickstart.md`). **Review:**
+- [ ] **Constitution Check:** all principles pass, or a violation is clearly justified
+- [ ] **New dependencies?** Should be none unless justified
+- [ ] **"Ano ang mahirap baguhin pagkatapos?"** Usually the stored data format → add a **version** field (`{ "version": 1, "notes": [...] }`) so you can migrate later
+
+```cmd
+git add specs
+git commit -m "docs(001): add plan"
+```
+
+### C5. `/speckit-tasks` — STEPS
+
+**Review:**
+- [ ] Small tasks, logic before UI
+- [ ] **Every task leaves the app working AND safe.** ❌ "unsafe version now, fixed in a later task" + a warning. ✅ Write the safe version from the start. *Ang babalang kailangang tandaan ay babalang malilimutan.*
+- [ ] No parallel tasks that touch the same file (they would conflict)
+- [ ] Nothing that isn't in the spec or plan (scope creep)
+
+### C6. `/speckit-analyze` — consistency check before code
+
+Finds contradictions, coverage gaps, type errors and scope creep **before** code exists.
+
+| Severity | Action |
+|---|---|
+| CRITICAL | Stop. Fix before implementing. |
+| MEDIUM | Fix before implementing. |
+| LOW | Fix if quick, or accept on purpose. |
+
+- **Re-run after fixing.** Your own edits create new inconsistencies.
+- Set the spec **Status: Approved**. That's your formal sign-off (constitution: spec before code).
+
+```cmd
+git add specs
+git commit -m "docs(001): resolve analyze findings; spec approved"
+```
+
+### C7. `/speckit-implement` — one phase at a time
+
+```text
+/speckit-implement Phase 1 and 2 only (Setup + Foundational). Stop after, run lint and typecheck.
+```
+
+After **each** phase:
+1. `npm run dev` → follow `quickstart.md` yourself (you are the user)
+2. `Use the spec-reviewer subagent on specs/001-upcoming-notes`
+3. Fix findings → tick tasks
+4. Commit
+
+```cmd
+git add .
+git commit -m "feat(001): setup and foundational tasks"
+```
+
+> ⚠️ **Never leave implemented code uncommitted.** Sa practice, may code na naisulat pero hindi na-commit at walang na-tick na task. Mas mabuti ang 5 maliliit na commit kaysa isang malaking hindi naka-commit.
+> 💡 Kapag may existing code na: **suriin laban sa spec, huwag isulat ulit.**
+> 💡 Kapag nagbago ang plano habang nag-i-implement: **update spec/plan/tasks first, then code.**
+
+### C8. Pull request and merge
+
+```cmd
+git push -u origin 001-upcoming-notes
+gh pr create --fill
+```
+
+Review the PR on GitHub (and CI / CodeRabbit if set up), then **merge**. Next feature: back to C1 with `002-...`.
 
 ---
 
-## Updating the starter kit
+# Branching and commits
 
-`templates/` is the source. After editing it, rebuild the zip from inside the folder so the files extract straight into a project root:
-
-```bash
-cd templates
-zip -r ../claude-starter-kit.zip . -x "*.DS_Store"
+```
+main ──●────────────────●──────────────────●──→   always working, always deployable
+        \              /  \               /
+         001-upcoming-notes  002-design-system
 ```
 
-Keep the kit generic. Anything specific to one project belongs in that project's `AGENTS.md`.
+| Thing | Convention | Example |
+|---|---|---|
+| Feature branch | `NNN-short-name` (same number as `specs/NNN-...`) | `001-upcoming-notes` |
+| Quick fix branch (S size) | `fix/short-name` | `fix/date-typo` |
+| Commit types | `feat`, `fix`, `docs`, `chore`, `refactor`, `test` | `feat(001): save note with date` |
+| Spec/plan/tasks commits | `docs(NNN): ...` | `docs(001): add plan` |
+| Setup commits | `chore: ...` | `chore: add hooks` |
+
+- **One feature = one branch = one PR.**
+- Commit **after every approved step**, so the history shows when and why the plan changed.
+- ❌ Avoid `"update"` as a commit message. Walang masasabi ang ganyan sa history.
+
+---
+
+# UI features
+
+Same loop, plus a **design reference** and a **visual check**. Spec Kit handles behavior; it can't describe how things look on its own.
+
+```
+0. Design reference first → docs/design/home.png (ChatGPT image, Figma, Claude Design)
+1. Design system as its OWN feature first (002-design-system): colors, fonts, spacing, buttons
+2. Then screens, each with the full loop
+```
+
+| Step | UI addition |
+|---|---|
+| **specify** | Point to the reference as **source of truth**. List **every state**: empty, loading, error, filled. Sizes: 360px and 1280px. |
+| **plan** | Reuse theme tokens and existing components. No new UI library unless justified. |
+| **tasks** | Include a task: "Compare with docs/design/home.png at 360px and 1280px; fix differences." |
+| **implement** | **Verify loop:** build → screenshot → compare with reference → fix → repeat. Use the `frontend-design` skill. |
+| **review** | spec-reviewer + a visual review (`impeccable` critique) |
+
+```text
+/speckit-specify Home screen. Design reference: docs/design/home.png (source of truth).
+States: empty (no notes yet), list with notes, error message, saving.
+Must work on phone (360px) and desktop (1280px).
+```
+
+Add a UI principle to the constitution (version **1.0.0 → 1.1.0**, MINOR bump):
+
+```text
+/speckit-constitution Add principle VI. Design Fidelity: when a design reference exists, it is the source of truth. Screens MUST use theme tokens (no hardcoded colors or sizes) and MUST be checked against the reference at 360px and 1280px before a task is marked done.
+```
+
+Skills: [`frontend-design`](skills/frontend-design/README.md) (visual direction) · [`impeccable`](skills/impeccable/README.md) (critique, polish)
+
+---
+
+# Changing the rules
+
+| Situation | Do this |
+|---|---|
+| The constitution blocks something good (e.g. a test runner) | **Amend it openly:** `/speckit-constitution` + version bump. Baguhin ang batas, huwag labagin nang palihim. |
+| You keep correcting Claude the same way | Add a line to `CLAUDE.md`, or make a project skill |
+| A procedure repeats across features | Project skill in `.claude/skills/` |
+
+Version bumps: **MAJOR** = principle removed or redefined · **MINOR** = principle or section added · **PATCH** = wording fixes.
+
+---
+
+# Troubleshooting
+
+| Problem | Cause | Fix |
+|---|---|---|
+| `'uv'` / `'specify'` is not recognized | Terminal has old PATH | Open a new terminal; `uv tool update-shell` |
+| Claude Code "not found" in `specify check` | Using the editor extension, not the CLI | OK. Use `--ignore-agent-tools` in `specify init` |
+| `/speckit-*` or new commands don't appear | Session started before files existed | New Claude session in the project folder |
+| `/init` produced no file | Pending approval, wrong folder, or draft only | Approve / open the right folder / "Write that to CLAUDE.md" |
+| Login: "Console is temporarily unavailable" | Anthropic-side incident | Check status.claude.com, wait, or log in with a Claude subscription account |
+| `AGENTS.md` changed by itself | The framework writes blocks into it (e.g. Next.js agent rules and feedback) | **Read it before committing.** Tool-generated files can instruct Claude. Turn off what you don't want (e.g. `experimental.agentFeedback` in `next.config.ts`). |
+
+---
+
+# Lessons learned (mga aral)
+
+- 💡 **Draft → review → approve → commit.** Si Claude ang gumagawa, ikaw ang may kontrol.
+- 💡 **Verify, don't assume.** "Malamang protektado" ≠ "napatunayang protektado". Test every guardrail.
+- 💡 **Tools change fast.** Kapag hindi tugma ang instructions sa nakikita mo, ang tool at ang opisyal na docs ang tama, hindi ang tutorial.
+- 💡 **The setup pays off.** In the practice app, the two smartest plan decisions came straight from `@AGENTS.md` (Next 16 docs) and the `CLAUDE.md` gotchas.
+- 💡 **Cheaper early.** A problem found in the spec costs minutes; in the code, hours.
+- 💡 **Defaults are decisions made for you.** Accept or reject them on purpose.
+- 💡 **Every task leaves the app working and safe.**
+- 💡 **Commit often**, on a feature branch, with clear messages.
+
+---
+
+# What's in this repo
+
+```
+Claude-Code-Starter/
+├── README.md                      ← this guide (Spec Kit workflow)
+├── templates/
+│   ├── speckit-setup/             ← tested .claude files + CLAUDE.md template (Phase B)
+│   ├── claude-starter-kit/        ← kit for the prompt workflow
+│   └── starter-kit/
+├── workflows/
+│   └── prompt-workflow/README.md  ← original workflow, for small apps
+├── skills/
+│   ├── blueprint-interview/       ← Phase 0: product + architecture interview
+│   ├── frontend-design/           ← UI direction
+│   ├── impeccable/                ← UI critique and polish
+│   ├── client-reply/              ← client messages (not part of this workflow)
+│   └── elementor-site-from-doc/   ← Elementor builds (not part of this workflow)
+├── docs/                          ← background notes (CLAUDE.md, MCP, agents, skills, prompting)
+├── examples/
+└── assets/
+```
