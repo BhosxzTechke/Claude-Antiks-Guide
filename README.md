@@ -453,7 +453,7 @@ Add a UI principle to the constitution (version **1.0.0 → 1.1.0**, MINOR bump)
 /speckit-constitution Add principle VI. Design Fidelity: when a design reference exists, it is the source of truth. Screens MUST use theme tokens (no hardcoded colors or sizes) and MUST be checked against the reference at 360px and 1280px before a task is marked done.
 ```
 
-Skills: [`frontend-design`](skills/frontend-design/README.md) (visual direction) · [`impeccable`](skills/impeccable/README.md) (critique, polish)
+Skills: [`frontend-design`](skills/frontend-design/README.md) (visual direction) · [`impeccable`](skills/impeccable/README.md) (critique, polish) · [`design-taste-frontend`](skills/design-taste-frontend/README.md) (anti-generic UI, redesign) · [`graphify`](skills/graphify/README.md) (code map for big projects)
 
 ---
 
@@ -510,6 +510,8 @@ Claude-Code-Starter/
 │   ├── blueprint-interview/       ← Phase 0: product + architecture interview
 │   ├── frontend-design/           ← UI direction
 │   ├── impeccable/                ← UI critique and polish
+│   ├── design-taste-frontend/     ← design taste rules + redesign steps
+│   ├── graphify/                  ← code knowledge graph (saves exploring tokens)
 │   ├── client-reply/              ← client messages (not part of this workflow)
 │   └── elementor-site-from-doc/   ← Elementor builds (not part of this workflow)
 ├── docs/                          ← background notes (CLAUDE.md, MCP, agents, skills, prompting)

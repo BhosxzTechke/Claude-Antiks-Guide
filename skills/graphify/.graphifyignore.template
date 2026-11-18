@@ -1,0 +1,9 @@
+# Copy this file to the root of your project and rename it to .graphifyignore
+# Anything listed here is NOT put in the graph.
+.claude/
+.agents/
+node_modules/
+.next/
+.venv/
+dist/
+build/
