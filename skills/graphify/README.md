@@ -8,6 +8,27 @@ Official repo: https://github.com/Graphify-Labs/graphify
 
 ---
 
+## ✅ Checklist sa susunod (kopyahin mo ito)
+
+**Bagong computer (isang beses):**
+1. `python --version` (3.10 pataas)
+2. `pip install graphifyy`
+3. Ayusin ang PATH kung "not recognized" (Part 1, step 3)
+4. `graphify install`, tapos tingnan kung may `/graphify` sa Claude Code
+
+**Bagong project (isang beses):**
+1. `git switch -c graphify`
+2. Kopyahin ang `.graphifyignore.template` papunta sa project root bilang `.graphifyignore`
+3. Idagdag ang `graphify-out/` sa `.gitignore`
+4. Sa Claude Code: `/graphify .`
+5. `start graphify-out\graph.html`
+6. `graphify claude install`, tapos i-check ang `.claude/settings.json`
+7. I-commit ang `.gitignore` at `.graphifyignore`
+
+**Pagkatapos ng malalaking pagbabago sa code:** `/graphify .` ulit.
+
+---
+
 ## Kailan ito gagamitin?
 
 | Project | Gamitin ba? |
@@ -70,6 +91,16 @@ graphify install
 
 Pagkatapos, buksan ang Claude Code at i-type ang `/`. Dapat lumabas ang `/graphify`.
 
+Ito ang lalabas sa terminal kapag tama (halimbawa):
+
+```text
+skill installed -> C:\Users\<ikaw>\.claude\skills\graphify\SKILL.md
+```
+
+Ibig sabihin, **global** ang install: nasa user folder mo (`~\.claude\skills\graphify`), kaya gumagana sa **lahat** ng project. Hindi ito lalabas sa loob ng project mo, kaya huwag kang magtaka kung wala sa `.claude/skills` ng project.
+
+> 💡 Maaaring may lumabas na link sa dulo (`app.graphify.com/signup...`). Marketing link iyon. **Hindi mo kailangan** mag-sign up para gumana ang graph.
+
 > 💡 Gusto mo bang nasa loob lang ng isang project ang skill (para ma-commit)? Gamitin ang `graphify install --project` mula sa project root.
 
 > 💡 Kapag may tinanong na "which agents do you want to install to?", piliin ang **Claude Code** lang.
@@ -91,7 +122,9 @@ git switch -c graphify
 
 Kopyahin ang `skills/graphify/.graphifyignore.template` papunta sa project root, at palitan ang pangalan ng **`.graphifyignore`**.
 
-**Bakit kailangan?** Kung wala ito, babasahin din ng Graphify ang `node_modules` at ang mga naka-install na skills (sa Mkeni, mga 3,100 skill files). Mabagal iyon, gumagastos ng tokens, at pinupuno ang graph ng ingay.
+Kasama sa template ang `graphify-out/`, para hindi mabasa ng Graphify ang sarili nitong report (`GRAPH_REPORT.md`) sa susunod na run.
+
+**Bakit kailangan ang file?** Kung wala ito, babasahin din ng Graphify ang `node_modules` at ang mga naka-install na skills (sa Mkeni, mga 3,100 skill files). Mabagal iyon, gumagastos ng tokens, at pinupuno ang graph ng ingay.
 
 ### 3. Gawin ang graph (sa Claude Code)
 
@@ -106,6 +139,34 @@ Gagawa ito ng folder na `graphify-out/`:
 | `graph.html` | Ang interactive na mapa. **Ito ang bubuksan mo.** |
 | `GRAPH_REPORT.md` | Written summary: pinaka-konektado, mga grupo, kakaibang koneksyon. |
 | `graph.json` | Raw data. Pwede mong balewalain. |
+
+**Ano ang makikita mo pagkatapos ng build.** Magsusumite si Claude ng buod. Halimbawa sa Mkeni:
+
+```text
+194 nodes, 277 edges, 11 communities, 42 files
+Skipped: 5 SVG files, 4 PowerShell scripts (no symbols)
+God nodes: compilerOptions, findDate(), Home() ...
+```
+
+I-check mo ito:
+
+| Tingnan | Ano ang ibig sabihin |
+|---|---|
+| **Bilang ng files** | Dapat katumbas ng **iyong code at docs**. Kung libo-libo, kulang ang `.graphifyignore`. |
+| **Skipped** | Normal ang SVG at PowerShell. Hindi nababasa ang mga iyon. |
+| **God nodes** | Pinaka-konektado. Madalas config lang (`tsconfig`). Hanapin ang totoong functions. |
+| **Cost / tokens: 0** | Hindi totoong numero. Hindi nare-record ang subagent. |
+
+Sa loob ng `graphify-out/`:
+
+```text
+graphify-out/
+├── graph.html          ← buksan ito
+├── GRAPH_REPORT.md     ← written report
+├── graph.json          ← raw data
+├── cache/              ← para mabilis ang re-run
+└── .graphify_*         ← mga helper files (labels, python, root). Huwag galawin.
+```
 
 ### 4. I-ignore ang output sa git
 
@@ -217,6 +278,8 @@ Check graphify-out/GRAPH_REPORT.md first, then answer.
 | Sobrang laki o bagal ng graph | I-check kung may `.graphifyignore` sa project root. |
 | Lumang code ang lumalabas | Tumakbo ulit ng `/graphify .`. |
 | Nagtanong kung anong agent | Piliin ang **Claude Code**. |
+| Lumalabas na untracked ang `.agents/` o `.claude/skills/...` | Hindi ito galing sa Graphify. Galing ito sa ibang skill (halimbawa `design-taste-frontend`). Pagpasyahan kung i-commit. |
+| Putol ang sagot sa query (hal. 16 of 79 nodes missing) | Humingi ng mas malaking budget, halimbawa `--budget 2638`. |
 | Nawala ang hooks pagkatapos ng `graphify claude install` | Buksan ang `.claude/settings.json` at `git diff`. Ibalik ang mga hooks mo. |
 
 ---
