@@ -15,6 +15,32 @@ Isang pixel-art na opisina sa browser kung saan ang bawat Claude Code agent mo a
 
 ---
 
+## Kung ibang PC ang gamit mo
+
+Walang kasamang package sa folder na ito. Ang `npx` ang kumukuha nito sa internet sa unang takbo, kaya kailangan lang ng tamang tools sa bagong PC.
+
+**Checklist bago gamitin:**
+
+| Kailangan | Paano i-check | Kung wala |
+|---|---|---|
+| Node.js (kasama ang `npx`) | `node -v` at `npx -v` | I-install ang **Node.js LTS** mula sa nodejs.org, isara at buksan ulit ang terminal |
+| Claude Code | `claude --version` | I-install ang Claude Code at mag-login |
+| Internet (unang takbo lang) | | Kailangan para ma-download ang `pixel-agents` |
+
+**Paano dalhin sa ibang PC:**
+- Kung nasa GitHub ang repo: `git clone` ito, tapos buksan ang `templates/agent-office/`.
+- O kopyahin lang ang dalawang file (`README.md` at `start-pixel-agents.bat`) sa kahit anong folder.
+
+**Mga error at ayos:**
+
+| Error | Ayos |
+|---|---|
+| `'npx' is not recognized` | Wala o hindi pa nare-recognize ang Node.js. I-install ito, tapos isara at buksan ulit ang terminal. |
+| Hindi gumagana ang `.bat` | Subukan mula sa terminal: `npx pixel-agents` |
+| Naka-block ang download (company o school PC) | Maaaring hinaharang ng network ang npm. Subukan sa ibang network. |
+
+---
+
 ## Setup (isang beses lang)
 
 1. Siguraduhing may Node.js ka:
